@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here...
-
 class User(models.Model):
 	registered_date = models.DateTimeField()
 	# user_id = models.IntegerField()
@@ -13,7 +11,7 @@ class User(models.Model):
 	phone_number = models.CharField(max_length = 15)  #assigned phone number for emg contact
 
 	def __unicode__(self):
-		return self.User
+		return self.name
 
 
 class DailyVitals(models.Model):
@@ -32,7 +30,7 @@ class DailyVitals(models.Model):
 	medications = models.CharField(max_length =300)
 
 	def __unicode__(self):
-		return self.DailyVitals
+		return self.user
 
 
 

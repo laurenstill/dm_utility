@@ -1,0 +1,9 @@
+{% if info %}
+    <ul>
+    {% for User in info %}
+        <li><a href="/chart/{{ user.id }}/">{{ name.User }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No user details are availible for this ID.</p>
+{% endif %}

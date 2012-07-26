@@ -1,10 +1,18 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+	# rework this to be main login front page:
+	url(r'^index$', 'chart.views.index'), 
+	# user main page/dashboard/tracking display:
+	url(r'^user/(?P<user_id>\d+)/$', 'chart.views.detail'), 
+	# in house update modual:
+    url(r'^user/(?P<user_id>\d+)/update/$', 'chart.views.update'), 
+    # modual to download/save all your phi:
+    url(r'^user/(?P<user_id>\d+)/download/$', 'chart.views.download'),
+    
+
     # Examples:
     # url(r'^$', 'dm_app.views.home', name='home'),
     # url(r'^dm_app/', include('dm_app.foo.urls')),
