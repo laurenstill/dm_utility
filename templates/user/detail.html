@@ -1,9 +1,27 @@
-{% if info %}
-    <ul>
-    {% for User in info %}
-        <li><a href="/chart/{{ user.id }}/">{{ name.User }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No user details are availible for this ID.</p>
-{% endif %}
+<!-- figure out how to run a for loop to display a list of all the values for each vital for user Numero Dos -->
+
+
+{{ vitals.1.mood }}<br>
+
+
+{{ current_user}}<br>
+
+[{{ vitals.0.high_BGL }},
+{{ vitals.1.high_BGL }},
+{{ vitals.2.high_BGL }},
+{{ vitals.3.high_BGL }}] <br>
+
+<p> weight = {{ vitals.1.weight }} </p><br>
+
+<!-- pipe then 'date' or 'time' will filter out the extraneous info-->
+{{ vitals.3.entered_at|date }}  
+
+
+
+<!-- ​for the chart stuff -->
+<!-- <script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+​
+ -->

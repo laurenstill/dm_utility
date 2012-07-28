@@ -30,9 +30,6 @@ class DailyVitals(models.Model):
 	medications = models.CharField(max_length =300)
 
 	def __unicode__(self):
-		return self.user
-
-
-
-
+		# return "%s's Vitals" %(self.user.name)
+		return self.user.name
 
