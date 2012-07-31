@@ -1,27 +1,334 @@
-<!-- figure out how to run a for loop to display a list of all the values for each vital for user Numero Dos -->
+
+<!-- table formatting not particularly useful for passing data, will be replaced with js graph -->
+<style type = "text/css">
+table, td  {
+	padding: 5px; 
+	border: 1px solid black;
+}
+</style>
+<table> 
+<tr>
+	<td>User</td>
+	<td>High BGL</td>
+	<td>Low BGL</td>
+	<td>Diet</td>
+	<td>Activity</td>
+	<td>Mood</td>
+	<td>Comments</td>
+	<td>Weight</td>
+	<td>Systolic</td>
+	<td>Diastolic</td>
+	<td>Medications</td>
+	<td>Date</td>
+	<td>Time</td>
+</tr>
+{% for vital in vitals %}
+<tr>
+	<td>{{ vital.user }}</td>
+	<td>{{ vital.high_BGL }}</td>
+	<td>{{ vital.low_BGL }}</td>
+	<td>{{ vital.diet }}</td>
+	<td>{{ vital.activity }}</td>
+
+<!-- just playing around with how one would make some of the info more user readable -->
+<!-- not particularly useful right meow -->
+<!-- for later, think about drop down selection boxes if you want more detail specific information -->
+<!-- either way, normalize input, lauren cant spell-->
+	{% if vital.mood < 4 %}
+		<td> Bad </td>
+	{% elif vital.mood > 3 and vital.mood < 7  %}
+		<td>Average</td>
+	{% else %}
+		<td>Good</td>
+	{% endif %}
+
+	<td>{{ vital.comments }}</td> 
+	<td>{{ vital.weight }}</td>
+	<td>{{ vital.systolic }}</td>
+	<td>{{ vital.diastolic }}</td>
+	<td>{{ vital.medications }}</td>
+	<!-- filters that pesky timedatefeild -->
+	<td>{{ vital.entered_at|date }}</td>  
+	<td>{{ vital.entered_at|time }}</td> 
+</tr> 
+{% endfor %}
+
+</table>
+
+<!-- how to assign variables in hmtl, pass to js....this is not right at all-->
+<!-- will that last null value make problems -->
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+	<!-- Additional files for the Highslide popup effect  per the ajax vs-->
+	<script type="text/javascript" src="http://www.highcharts.com/highslide/highslide-full.min.js"></script>
+	<script type="text/javascript" src="http://www.highcharts.com/highslide/highslide.config.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="http://www.highcharts.com/highslide/highslide.css" />
+	<div id="container" style="width: 100%; height: 400px"></div>
+</head>
 
 
-{{ vitals.1.mood }}<br>
+
+	<body>
+		<p><var>high_BGL</var> = [{% for vital in vitals %} 
+				{{ vital.high_BGL }},
+				{% endfor %}]</p>
+
+		<p><var>low_BGL</var> = [{% for vital in vitals %}
+					{{ vital.low_BGL }},
+					{% endfor %}]</p>
+
+		<p><var>diet</var> = [{% for vital in vitals %} 
+				{{ vital.diet }},
+				{% endfor %}]</p>
+
+		<p><var>activity</var> = [{% for vital in vitals %} 
+				{{ vital.activity }},
+				{% endfor %}]</p>
+
+		<p><var>mood</var> = [{% for vital in vitals %} 
+				{{ vital.mood }},
+				{% endfor %}]</p>
+		<p><var>comment</var> = [{% for vital in vitals %}
+				{{ vital.comments }},
+				{% endfor %}]</p>
 
 
-{{ current_user}}<br>
-
-[{{ vitals.0.high_BGL }},
-{{ vitals.1.high_BGL }},
-{{ vitals.2.high_BGL }},
-{{ vitals.3.high_BGL }}] <br>
-
-<p> weight = {{ vitals.1.weight }} </p><br>
-
-<!-- pipe then 'date' or 'time' will filter out the extraneous info-->
-{{ vitals.3.entered_at|date }}  
+	</body>
 
 
 
-<!-- ​for the chart stuff -->
-<!-- <script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
 
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-​
- -->
+
+
+
+
+
+	<div=graph1>
+		<script>
+		 var chart1; 
+		$(document).ready(function() {
+	      chart1 = new Highcharts.Chart({
+	         chart: {
+	            renderTo: 'container',
+	            type: 'line'
+	         },
+	         title: {
+	            text: 'Blood Glucose Variation'
+	         },
+	         xAxis: {
+	            categories: [{% for vital in vitals %}
+						"{{ vital.entered_at|date:"M-d" }}",
+						{% endfor %}]
+
+	         },
+	         yAxis: {
+	            title: {
+	               text: 'Daily BGL measurements'
+	            }
+	         },
+	         series: [{
+	            name: 'High BGL',
+	            data: [{% for vital in vitals %} 
+					{{ vital.high_BGL }},
+					{% endfor %}]
+	         }, {
+	            name: 'Low BGL',
+	            data: [{% for vital in vitals %}
+						{{ vital.low_BGL }},
+						{% endfor %}]
+	         }]
+	      });
+	   });
+		</script>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- this is the template for making everything tie together with ajax and pop up cursur bubbles -->
+
+<div=graph2>
+<script>
+$(function () {
+    var chart;
+    $(document).ready(function() {
+    
+        // define the options
+        var options = {
+    
+            chart: {
+                renderTo: 'container'
+            },
+    
+            title: {
+                text: 'Daily Blood Glucose Variation'
+            },
+    
+            subtitle: {
+                text: '{{ user.name }}'
+            },
+    
+            xAxis: {
+	            categories: [{% for vital in vitals %}
+						"{{ vital.entered_at|date:"M-d" }}",
+						{% endfor %}]
+
+	         },
+    
+            yAxis: [{ // left y axis
+                title: {
+                    text: 'Daily BGL'
+                },
+                labels: {
+                    align: 'left',
+                    x: 3,
+                    y: 16,
+                    formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0);
+                    }
+                },
+                showFirstLabel: false
+            }, { // right y axis
+                linkedTo: 0,
+                gridLineWidth: 0,
+                opposite: true,
+                title: {
+                    text: null
+                },
+                labels: {
+                    align: 'right',
+                    x: -3,
+                    y: 16,
+                    formatter: function() {
+                        return Highcharts.numberFormat(this.value, 0);
+                    }
+                },
+                showFirstLabel: false
+            }],
+    
+            legend: {
+                align: 'left',
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                borderWidth: 0
+            },
+    
+            tooltip: {
+                shared: true,
+                crosshairs: true
+            },
+    
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    point: {
+                        events: {
+                            click: function() {
+                                hs.htmlExpand(null, {
+                                    pageOrigin: {
+                                        x: this.pageX,
+                                        y: this.pageY
+                                    },
+                                    headingText: this.series.name,
+                                    maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) +':<br/> '+
+                                        this.y +' visits',
+                                    width: 200
+                                });
+                            }
+                        }
+                    },
+                    marker: {
+                        lineWidth: 1
+                    }
+                }
+            },
+    
+            series: [{
+                name: 'All visits',
+                lineWidth: 4,
+                marker: {
+                    radius: 4
+                }
+            }, {
+                name: 'New visitors'
+            }]
+        };
+    
+    
+        // Load data asynchronously using jQuery. On success, add the data
+        // to the options and initiate the chart.
+        // This data is obtained by exporting a GA custom report to TSV.
+        // http://api.jquery.com/jQuery.get/
+        jQuery.get('analytics.tsv', null, function(tsv, state, xhr) {
+            var lines = [],
+                listen = false,
+                date,
+    
+                // set up the two data series
+                allVisits = [],
+                newVisitors = [];
+    
+            // inconsistency
+            if (typeof tsv !== 'string') {
+                tsv = xhr.responseText;
+            }
+    
+            // split the data return into lines and parse them
+            tsv = tsv.split(/\n/g);
+            jQuery.each(tsv, function(i, line) {
+    
+                // listen for data lines between the Graph and Table headers
+                if (tsv[i - 3] == '# Graph') {
+                    listen = true;
+                } else if (line == '' || line.charAt(0) == '#') {
+                    listen = false;
+                }
+    
+                // all data lines start with a double quote
+                if (listen) {
+                    line = line.split(/\t/);
+                    date = Date.parse(line[0] +' UTC');
+    
+                    allVisits.push([
+                        date,
+                        parseInt(line[1].replace(',', ''), 10)
+                    ]);
+                    newVisitors.push([
+                        date,
+                        parseInt(line[2].replace(',', ''), 10)
+                    ]);
+                }
+            });
+    
+            options.series[0].data = allVisits;
+            options.series[1].data = newVisitors;
+    
+            chart = new Highcharts.Chart(options);
+        });
+    });
+    
+});​
+</script>
+
+</div>
+
+
+
+
+</html>
+
+
+
+
+
+
