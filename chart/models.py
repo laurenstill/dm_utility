@@ -9,7 +9,7 @@ class User(models.Model):
 	#followers =  #hu, how do i do this? probably a separate class
 	updated_at = models.DateTimeField()
 	phone_number = models.CharField(max_length = 15)  #assigned phone number for emg contact
-
+	# password = models.CharField(max_length = 30)  don't need this if i'm merging
 	def __unicode__(self):
 		return self.name
 
