@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/student/src/LaurensProject/dm_app/user_data.db',                      # Or path to database file if using sqlite3.
+        'NAME': 'user_data.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -114,7 +114,9 @@ ROOT_URLCONF = 'dm_app.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'dm_app.wsgi.application'
 
-TEMPLATE_DIRS = ("/Users/student/src/LaurensProject/dm_app/templates/", "/Users/student/src/LaurensProject/dm_app/templates/user"
+TEMPLATE_DIRS = (
+    "/Users/student/src/LaurensProject/dm_app/templates/", 
+    "/Users/student/src/LaurensProject/dm_app/templates/user"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -131,8 +133,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'south',
     'chart',
-    'south'
 
 )
 
@@ -164,3 +166,6 @@ LOGGING = {
         },
     }
 }
+
+
+AUTH_PROFILE_MODULE = "chart.UserProfile"

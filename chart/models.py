@@ -1,22 +1,26 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+import datetime
 
-class User(models.Model):
-	registered_date = models.DateTimeField()
-	# user_id = models.IntegerField()
-	birthday = models.DateField()
-	email = models.CharField(max_length = 200)
-	name = models.CharField(max_length = 60)
-	#followers =  #hu, how do i do this? probably a separate class
-	updated_at = models.DateTimeField()
+class UserProfile(models.Model):
+	user = models.OneToOneField(User)
+	birthday = models.DateField(null = True, blank = True)
+	updated_at = models.DateTimeField(default=datetime.datetime.utcnow)
 	phone_number = models.CharField(max_length = 15)  #assigned phone number for emg contact
-	# password = models.CharField(max_length = 30)  don't need this if i'm merging
+	
 	def __unicode__(self):
-		return self.name
+		return self.user.username
 
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		UserProfile.objects.create(user=instance)
 
-class DailyVitals(models.Model):
-	entered_at = models.DateTimeField()
+post_save.connect(create_user_profile, sender=User)
+
+class DailyVital(models.Model):
 	user =  models.ForeignKey(User)
+	entered_at = models.DateTimeField()
 	high_BGL = models.IntegerField()
 	low_BGL = models.IntegerField()
 	diet = models.IntegerField()
@@ -27,9 +31,9 @@ class DailyVitals(models.Model):
 	weight = models.IntegerField()
 	systolic = models.IntegerField()
 	diastolic = models.IntegerField()
-	medications = models.CharField(max_length =300)
+	medications = models.CharField(blank = True, max_length = 300)
 
 	def __unicode__(self):
 		# return "%s's Vitals" %(self.user.name)
-		return self.user.name
+		return self.user.username
 

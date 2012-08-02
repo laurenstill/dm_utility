@@ -4,14 +4,15 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	# rework this to be main login front page:
-	url(r'^$', 'chart.views.login'), 
+	url(r'^$', 'chart.views.login_view', name="home"), 
 	# user main page/dashboard/tracking display:
-	url(r'^user/(?P<user_id>\d+)/$', 'chart.views.detail'), 
+	url(r'^user/(?P<user_id>\d+)/$', 'chart.views.detail', name="user_detail"), 
 	# in house update modual:
     url(r'^user/(?P<user_id>\d+)/update/$', 'chart.views.update'), 
     # modual to download/save all your phi:
     url(r'^user/(?P<user_id>\d+)/download/$', 'chart.views.download'),
     
+    url(r'^logout', 'chart.views.logout_view'),
 
     # Examples:
     # url(r'^$', 'dm_app.views.home', name='home'),
