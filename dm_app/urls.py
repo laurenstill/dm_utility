@@ -4,7 +4,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	# rework this to be main login front page:
-	url(r'^index$', 'chart.views.index'), 
+	url(r'^$', 'chart.views.login'), 
 	# user main page/dashboard/tracking display:
 	url(r'^user/(?P<user_id>\d+)/$', 'chart.views.detail'), 
 	# in house update modual:

@@ -90,12 +90,21 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+# 8/1/12 not so sure about this, and backends.py and email auth in general.....just saying
+# AUTHENTICATION_BACKENDS = (
+#     '/Users/student/src/LaurensProject/dm_app/dm_app/backends.py',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
+
 MIDDLEWARE_CLASSES = (
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfResponseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
