@@ -1,0 +1,61 @@
+
+
+
+
+<style type = "text/css">
+table, td  {
+	padding: 5px; 
+	border: 1px solid black;
+}
+</style>
+<head><b>Your Current Stats:</b></head>
+<table> 
+<tr>
+	<td>User</td>
+	<td>High BGL</td>
+	<td>Low BGL</td>
+	<td>Diet</td>
+	<td>Activity</td>
+	<td>Mood</td>
+	<td>Comments</td>
+	<td>Weight</td>
+	<td>Systolic</td>
+	<td>Diastolic</td>
+	<td>Medications</td>
+	<td>Date</td>
+	<td>Time</td>
+</tr>
+{% for vital in vitals %}
+<tr>
+	<td>{{ vital.user }}</td>
+	<td>{{ vital.high_BGL }}</td>
+	<td>{{ vital.low_BGL }}</td>
+	<td>{{ vital.diet }}</td>
+	<td>{{ vital.activity }}</td>
+
+<!-- just playing around with how one would make some of the info more user readable -->
+<!-- not particularly useful right meow -->
+<!-- for later, think about drop down selection boxes if you want more detail specific information -->
+<!-- either way, normalize input, lauren cant spell-->
+	{% if vital.mood < 4 %}
+		<td> Bad </td>
+	{% elif vital.mood > 3 and vital.mood < 7  %}
+		<td>Average</td>
+	{% else %}
+		<td>Good</td>
+	{% endif %}
+
+	<td>{{ vital.comments }}</td> 
+	<td>{{ vital.weight }}</td>
+	<td>{{ vital.systolic }}</td>
+	<td>{{ vital.diastolic }}</td>
+	<td>{{ vital.medications }}</td>
+	<!-- filters that pesky timedatefeild -->
+	<td>{{ vital.entered_at|date }}</td>  
+	<td>{{ vital.entered_at|time }}</td> 
+</tr> 
+{% endfor %}
+
+</table><br>
+
+i want a form here where users enter their info into the db and reflects here and on their main dashboard

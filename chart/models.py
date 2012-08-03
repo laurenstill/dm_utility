@@ -8,6 +8,8 @@ class UserProfile(models.Model):
 	birthday = models.DateField(null = True, blank = True)
 	updated_at = models.DateTimeField(default=datetime.datetime.utcnow)
 	phone_number = models.CharField(max_length = 15)  #assigned phone number for emg contact
+	activation_key = models.CharField(max_length=40)
+	key_expires = models.DateTimeField()
 	
 	def __unicode__(self):
 		return self.user.username
@@ -26,7 +28,7 @@ class DailyVital(models.Model):
 	diet = models.IntegerField()
 	activity = models.IntegerField()
 	mood = models.IntegerField()
-	comments = models.CharField(max_length = 500)
+	comments = models.CharField(blank = True, max_length = 500)
 	####outside the realm of everyday charting, but still included in model on sidebar
 	weight = models.IntegerField()
 	systolic = models.IntegerField()
@@ -36,4 +38,7 @@ class DailyVital(models.Model):
 	def __unicode__(self):
 		# return "%s's Vitals" %(self.user.name)
 		return self.user.username
+
+
+
 
