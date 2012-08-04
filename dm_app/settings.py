@@ -116,19 +116,22 @@ WSGI_APPLICATION = 'dm_app.wsgi.application'
 
 TEMPLATE_DIRS = (
     "/Users/student/src/LaurensProject/dm_app/templates/", 
-    "/Users/student/src/LaurensProject/dm_app/templates/user"
+    "/Users/student/src/LaurensProject/dm_app/chart/templates/",
+
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
 
 INSTALLED_APPS = (
+    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -169,3 +172,12 @@ LOGGING = {
 
 
 AUTH_PROFILE_MODULE = "chart.UserProfile"
+ACCOUNT_ACTIVATION_DAYS=7
+EMAIL_HOST='localhost'
+EMAIL_PORT=1023
+EMAIL_HOST_USER='username'
+EMAIL_HOST_PASSWORD='password'
+
+
+
+

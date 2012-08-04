@@ -8,11 +8,14 @@ urlpatterns = patterns('',
 	# user main page/dashboard/tracking display:
 	url(r'^user/(?P<user_id>\d+)/$', 'chart.views.detail', name="user_detail"), 
 	# in house update modual:
-    url(r'^user/(?P<user_id>\d+)/update/$', 'chart.views.update'), 
+    url(r'^user/(?P<user_id>\d+)/update/$', 'chart.views.update', name="update"), 
     # modual to download/save all your phi:
-    url(r'^user/(?P<user_id>\d+)/download/$', 'chart.views.download'),
+    url(r'^user/(?P<user_id>\d+)/update/download/$', 'chart.views.download', name='download'),
     
     url(r'^logout', 'chart.views.logout_view'),
+    url(r'^registration', 'chart.views.registration', name='registration'),
+    url(r'^confirmation', 'chart.views.logout_view', name='confirmation'),
+    # url(r'^accounts/', include('registration.urls')),
 
     # Examples:
     # url(r'^$', 'dm_app.views.home', name='home'),

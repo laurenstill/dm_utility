@@ -1,59 +1,7 @@
 
 <!-- table formatting not particularly useful for passing data, will be replaced with js graph -->
-<style type = "text/css">
-table, td  {
-	padding: 5px; 
-	border: 1px solid black;
-}
-</style>
-<table> 
-<tr>
-	<td>User</td>
-	<td>High BGL</td>
-	<td>Low BGL</td>
-	<td>Diet</td>
-	<td>Activity</td>
-	<td>Mood</td>
-	<td>Comments</td>
-	<td>Weight</td>
-	<td>Systolic</td>
-	<td>Diastolic</td>
-	<td>Medications</td>
-	<td>Date</td>
-	<td>Time</td>
-</tr>
-{% for vital in vitals %}
-<tr>
-	<td>{{ vital.user }}</td>
-	<td>{{ vital.high_BGL }}</td>
-	<td>{{ vital.low_BGL }}</td>
-	<td>{{ vital.diet }}</td>
-	<td>{{ vital.activity }}</td>
+<a href="update">Click this ugly thing to enter a new day!</a>
 
-<!-- just playing around with how one would make some of the info more user readable -->
-<!-- not particularly useful right meow -->
-<!-- for later, think about drop down selection boxes if you want more detail specific information -->
-<!-- either way, normalize input, lauren cant spell-->
-	{% if vital.mood < 4 %}
-		<td> Bad </td>
-	{% elif vital.mood > 3 and vital.mood < 7  %}
-		<td>Average</td>
-	{% else %}
-		<td>Good</td>
-	{% endif %}
-
-	<td>{{ vital.comments }}</td> 
-	<td>{{ vital.weight }}</td>
-	<td>{{ vital.systolic }}</td>
-	<td>{{ vital.diastolic }}</td>
-	<td>{{ vital.medications }}</td>
-	<!-- filters that pesky timedatefeild -->
-	<td>{{ vital.entered_at|date }}</td>  
-	<td>{{ vital.entered_at|time }}</td> 
-</tr> 
-{% endfor %}
-
-</table>
 
 <html>
 <head>
@@ -65,9 +13,8 @@ table, td  {
 	<script type="text/javascript" src="http://www.highcharts.com/highslide/highslide.config.js" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="http://www.highcharts.com/highslide/highslide.css" />
 	<div id="container1" style="width: 100%; height: 500px"></div>
-	<div id="container2" style="width: 100%; height: 500px"></div>
+	<div id="container2" style="width: 100%; height: 250px"></div>
 </head>
-
 
 	<!-- <body>
 		<p><var>high_BGL</var> = [{% for vital in vitals %} 
@@ -100,9 +47,18 @@ table, td  {
 
 <div=graph1>
 		<script>
-		 var chart1; 
+		Highcharts.setOptions({
+    		chart: {
+        		style: {
+            		fontFamily: 'monospace',
+            		// color: "#FFFFFF", not working, not sure why not
+       			}
+    		}
+		});
+
+		 var chart; 
 		$(document).ready(function() {
-	      chart1 = new Highcharts.Chart({
+	      chart = new Highcharts.Chart({
 	         chart: {
 	            renderTo: 'container1',
 	            type: 'line',
@@ -112,7 +68,7 @@ table, td  {
 
 	        },
 	         title: {
-	            text: 'Blood Glucose Variation'
+	            text: 'Blood Glucose Variation' 
 	        },
 	         xAxis: {
 	            categories: [{% for vital in vitals %}
@@ -130,7 +86,10 @@ table, td  {
 								'{{ vital.comments }}',
 								{% endfor %}]			
                 }
-            },
+            },       
+  			credits: {
+    			enabled: false
+  			},
             legend: {
                 layout: 'vertical',
                 align: 'right',
@@ -141,11 +100,13 @@ table, td  {
             },
 	         series: [{
 	            name: 'High BGL',
+	            // color: '#0066ff',
 	            data: [{% for vital in vitals %} 
 					{{ vital.high_BGL }},
 					{% endfor %}]
 	         }, {
 	            name: 'Low BGL',
+	            // color: '#FF0000',
 	            data: [{% for vital in vitals %}
 						{{ vital.low_BGL }},
 						{% endfor %}]
@@ -159,17 +120,18 @@ table, td  {
 
 	<!-- change this not a line graph -->
 	<!-- better way to display?> -->
+	<!-- maybe i can just squat it short -->
 	<div=graph2>
 		<script>
-		 var chart1; 
+		 var chart; 
 		$(document).ready(function() {
-	      chart1 = new Highcharts.Chart({
+	      chart = new Highcharts.Chart({
 	         chart: {
 	            renderTo: 'container2',
 	            type: 'line',
 	            marginRight: 130,
                 marginBottom: 25,
-                width: 600,
+                width: 800,
 
 	        },
 	         title: {
@@ -194,6 +156,9 @@ table, td  {
 								{% endfor %}]			
                 }
             },
+  			credits: {
+    			enabled: false
+  			},
             legend: {
                 layout: 'vertical',
                 align: 'right',

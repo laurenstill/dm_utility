@@ -1,0 +1,19 @@
+this will be a registraion form, maybe
+linnk it back to db via the auth template
+
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+    <body>
+        <h2>Register</h2>
+        <form action="registration" method="POST">{% csrf_token %}
+            <table>
+            {{ user.as_table }}
+            </table>
+        <p>
+            <input type="submit" value="Submit" />
+        </p>
+        </form>
+    </body>
+</html>

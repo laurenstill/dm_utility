@@ -1,6 +1,51 @@
 
 
+<p>i want a form here where users enter their info into the db and reflects here and on their main dashboard</p><br><br>
 
+<form action="admin/chart/dailyvital/{{ id }}" method="post">
+		Date:
+		<input type="date" name="date" value="{{ self.date.username }}" /><br />
+		Time:
+		<input type="time" name="time" value="{{ self.time.username }}" /><br />
+
+		High BGL for Today:
+		<input type="text" name="high_BGL" value="{{ self.high_BGL.username }}" /><br />
+		Low BGL for Today:
+		<input type="text" name="low_BGl" value="{{ self.low_BGL.username }}" /><br />
+		How would you rate your diet (1-10):
+		<input type="text" name="diet" value="{{ self.diet.username }}" /><br />
+		How would you rate your activity level (1-10):
+		<input type="text" name="activity" value="{{ self.activity.username }}" /><br />
+		How would you rate your overall mood (1-10):
+		<input type="text" name="mood" value="{{ self.mood.username }}" /><br />
+		Anything memorable about today:
+		<input type="text" name="comments" value="{{ self.comments.username }}" /><br />
+		Any change in medications for today:
+		<input type="text" name="medications" value="{{ self.medications.username }}" /><br />
+		<p>Optional fields below, track when you want to:</p>
+
+		How much do you currently weight?:
+		<input type="text" name="weight" value="{{ self.weight.username }}" /><br />
+		What is your most recent blood pressure (systolic):
+		<input type="text" name="systolic" value="{{ self.systolic.username }}" /><br />
+		What is your most recent blood pressure (diastolic):
+		<input type="text" name="diastolic" value="{{ self.diastolic.username }}" /><br />
+		Any change in medications for today:
+		<input type="text" name="medications" value="{{ self.medications.username }}" /><br />
+		
+
+
+
+		<input type="submit" value="Submit" />
+	</form>
+
+
+
+
+
+
+<p>and then this other thing that lets you download all your data or print or whateves</p>
+<a href="download">Click this ugly thing to download all your data!</a><br><br><br>
 
 <style type = "text/css">
 table, td  {
@@ -58,4 +103,3 @@ table, td  {
 
 </table><br>
 
-i want a form here where users enter their info into the db and reflects here and on their main dashboard
