@@ -3,16 +3,16 @@ from chart.models import User, UserProfile
 from chart.models import DailyVital
 from django.http import HttpResponse
 from django.template import Context, loader, RequestContext
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404, render 
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
+from django.views.decorators.csrf import csrf_exempt                                          
 import datetime, random, sha
+# from chart.forms import UserProfileForm, DailyVitalForm
 # from django.core.mail import send_mail
 # from django.core.urlresolvers import reverse
-# from django.shortcuts import render_to_response
 # from django.template import RequestContext
-# from django.http import HttpResponseRedirect
 # from django.contrib.auth.tokens import default_token_generator
 # from django.contrib.sites.models import Site
 
@@ -45,21 +45,9 @@ def logout_view(request):
 
 
 
-
-
-
-
-# fuck this fucking mcfuckerston fuckshit
+# tabled for another day, sign up for new users
 def registration(request):
     return render_to_response("registration.html")
-
-
-
-
-
-
-
-
 
 
 
@@ -71,8 +59,25 @@ def detail(request, user_id):
     	# current = User.objects.filter(id=user_id).one()
     except User.DoesNotExist:
     	raise Http404
-    return render_to_response('detail.html', {'current_user': current, "vitals": vitals})
+    return render_to_response('detail.html', {'current_user': current, 'vitals': vitals, 'id': user_id})
 
+@csrf_exempt
+def update_info(request, user_id):
+    print request.method
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        time = request.POST.get('time')
+        print date, time
+        try:
+          current = User.objects.get(pk=user_id)
+          vitals = current.dailyvital_set.all()
+        except User.DoesNotExist:
+          raise Http404
+    return render_to_response('detail.html',  {'current_user': current, 'vitals': vitals, 'id': user_id},
+                                context_instance=RequestContext(request))
+
+
+# this works kinda, does not push info into db or save it or any of that good stuff
 
 def update(request, user_id):
     try:
@@ -81,7 +86,7 @@ def update(request, user_id):
     	# current = User.objects.filter(id=user_id).one()
     except User.DoesNotExist:
     	raise Http404
-    return render_to_response('update.html', {'current_user': current, "vitals": vitals})
+    return render_to_response('update.html', {'current_user': current, "vitals": vitals, 'id': user_id})
 
 def download(request,user_id):
 	return HttpResponse("This is where you can export PHI in txt html or ccd format.")

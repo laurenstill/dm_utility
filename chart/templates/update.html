@@ -1,45 +1,65 @@
 
 
-<p>i want a form here where users enter their info into the db and reflects here and on their main dashboard</p><br><br>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<form action="admin/chart/dailyvital/{{ id }}" method="post">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Update</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<style>
+body{
+	font-family:Arial,Helvetica,sans-serif;
+	font-size: 12px;
+}
+</style>
+</head>
+<!-- mind your cases, lauren -->
+<body>
+	<h1> user id  {{ id }}</h1>
+	{{ state }}
+	<form action="/user/{{ id }}/update_info/" method="post">
+		<input type="hidden" name="next" value="{{ next }}" />
 		Date:
-		<input type="date" name="date" value="{{ self.date.username }}" /><br />
+		<input type="date" name="date" /><br />
 		Time:
-		<input type="time" name="time" value="{{ self.time.username }}" /><br />
+		<input type="time" name="time" /><br />
 
 		High BGL for Today:
-		<input type="text" name="high_BGL" value="{{ self.high_BGL.username }}" /><br />
+		<input type="text" name="high_BGL" /><br />
 		Low BGL for Today:
-		<input type="text" name="low_BGl" value="{{ self.low_BGL.username }}" /><br />
+		<input type="text" name="low_BGl" /><br />
 		How would you rate your diet (1-10):
-		<input type="text" name="diet" value="{{ self.diet.username }}" /><br />
+		<input type="text" name="diet" /><br />
 		How would you rate your activity level (1-10):
-		<input type="text" name="activity" value="{{ self.activity.username }}" /><br />
+		<input type="text" name="activity" /><br />
 		How would you rate your overall mood (1-10):
-		<input type="text" name="mood" value="{{ self.mood.username }}" /><br />
+		<input type="text" name="mood" /><br />
 		Anything memorable about today:
-		<input type="text" name="comments" value="{{ self.comments.username }}" /><br />
+		<input type="text" name="comments" /><br />
 		Any change in medications for today:
-		<input type="text" name="medications" value="{{ self.medications.username }}" /><br />
+		<input type="text" name="medications" /><br />
 		<p>Optional fields below, track when you want to:</p>
 
 		How much do you currently weight?:
-		<input type="text" name="weight" value="{{ self.weight.username }}" /><br />
+		<input type="text" name="weight" /><br />
 		What is your most recent blood pressure (systolic):
-		<input type="text" name="systolic" value="{{ self.systolic.username }}" /><br />
+		<input type="text" name="systolic" /><br />
 		What is your most recent blood pressure (diastolic):
-		<input type="text" name="diastolic" value="{{ self.diastolic.username }}" /><br />
+		<input type="text" name="diastolic"  /><br />
 		Any change in medications for today:
-		<input type="text" name="medications" value="{{ self.medications.username }}" /><br />
+		<input type="text" name="medications" /><br />
 		
 
 
 
-		<input type="submit" value="Submit" />
+
+
+		<input type="submit" value="Update" />
 	</form>
+</body>
 
-
+</html>
 
 
 
