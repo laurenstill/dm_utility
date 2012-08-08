@@ -17,13 +17,13 @@ urlpatterns = patterns('',
     url(r'^user/(?P<user_id>\d+)/update/$', 'chart.views.update', name="update"), 
     url(r'^user/(?P<user_id>\d+)/update_info/$', 'chart.views.update_info', name="update_info"), 
     # modual to download/save all your phi:
-    url(r'^user/(?P<user_id>\d+)/download/$', 'chart.views.download', name='download'),
+    url(r'^user/(?P<user_id>\d+)/download/$', 'chart.views.download', name="download"),
     
-    url(r'^logout', 'chart.views.logout_view'),
+    url(r'^logout', 'chart.views.logout_view', name="logout"),
 
-    url(r'^registration', 'chart.views.registration', name='registration'),
+    url(r'^registration', 'chart.views.registration', name="registration"),
 
-    url(r'^confirmation', 'chart.views.logout_view', name='confirmation'),
+    url(r'^confirmation', 'chart.views.logout_view', name="confirmation"),
     # url(r'^accounts/', include('registration.urls')),
 
     # Examples:

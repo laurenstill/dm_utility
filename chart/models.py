@@ -7,7 +7,7 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User, unique=True)
 	birthday = models.DateField(null = True, blank = True)
 	updated_at = models.DateTimeField(default=datetime.datetime.utcnow)
-	phone_number = models.IntegerField(max_length=15)  #assigned phone number for emg contact
+	phone_number = models.IntegerField(null=True, blank=True, max_length=15)  #assigned phone number for emg contact
 	# activation_key = models.CharField(max_length=40)
 	# key_expires = models.DateTimeField()
 	

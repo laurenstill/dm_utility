@@ -3,11 +3,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<TITLE>Updating {{ vital.user }} Info</TITLE>
-	<SCRIPT LANGUAGE="JavaScript" SRC="/javascript/calendarpopup/combined-compact/CalendarPopup.js"></SCRIPT>
-	<SCRIPT LANGUAGE="JavaScript">
-	var cal = new CalendarPopup();
-	</SCRIPT>
+<title>Updating {{ vital.user }} Info</title>
+
+<link rel="stylesheet" type="text/css" href="/static/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/forms.css" />
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	
 	<style>
@@ -19,21 +28,24 @@
 </head>
 
 
-
 <body>
 	<h1> Update for {{ vital.user }}</h1>
 	{{ state }}
 	<form action="/user/{{ id }}/update_info/" method="post">
 		<input type="hidden" name="next" value="{{ next }}" /> 
-		
 
+		Date: 
+		<input id="id_entered_at_0" type="text" class="vDateField" name="entered_at_0" size="10">
+		<a href="javascript:DateTimeShortcuts.handleCalendarQuickLink(0, 0);">Today</a>
+		<a href="javascript:DateTimeShortcuts.openCalendar(0);" id="calendarlink0">
+		<img src="/static/icon_calendar.gif" alt="Calendar"></a></span><br>
 
-		Date:
-		<input type="text" name="entered_at" value="" size=25>
-		<A HREF="#"
-   		onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;"
-   		NAME="anchor1" ID="anchor1">select</A><br>
-
+ 
+		Time: 
+		<input id="id_entered_at_1" type="text" class="vTimeField" name="entered_at_1" size="8">
+		<a href="javascript:DateTimeShortcuts.handleClockQuicklink(0, new Date().strftime('%H:%M:%S'));">Now</a>
+		<a href="javascript:DateTimeShortcuts.openClock(0);" id="clocklink0">
+		<img src="/static/icon_clock.gif" alt="Clock"></a></span></p>
 
 
 
@@ -58,7 +70,7 @@
 		How much do you currently weight?:
 		<input type="int" id="weight" /><br>
 		What is your most recent blood pressure:
-		<input type="int" id="systolic"  />/<input type="int" id="diastolic"  /><br>
+		<input type="int" id="systolic"  /> / <input type="int" id="diastolic"  /><br>
 		Any change in medications for today:
 		<input type="text" id="medications" /><br>
 	</div>

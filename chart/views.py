@@ -50,7 +50,7 @@ def logout_view(request):
 
 
 
-# tabled for another day, sign up for new users
+@csrf_exempt
 def registration(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -59,7 +59,7 @@ def registration(request):
             return HttpResponseRedirect("home")
     else:
         form = UserCreationForm()
-    return render_to_response("registration/registration.html", {
+    return render_to_response("registration.html", {
         'form': form,
     })
 

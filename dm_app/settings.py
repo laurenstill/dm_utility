@@ -117,6 +117,8 @@ WSGI_APPLICATION = 'dm_app.wsgi.application'
 TEMPLATE_DIRS = (
     "/Users/student/src/LaurensProject/dm_app/templates/", 
     "/Users/student/src/LaurensProject/dm_app/chart/templates/",
+    "/Users/student/src/LaurensProject/dm_app/chart/templates/registration",
+    "/Users/student/src/LaurensProject/dm_app/chart/static/",
 
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
