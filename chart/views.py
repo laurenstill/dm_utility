@@ -9,6 +9,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt                                          
 import datetime, random, sha
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+
+
 # from chart.forms import UserProfileForm, DailyVitalForm
 # from django.core.mail import send_mail
 # from django.core.urlresolvers import reverse
@@ -47,7 +52,16 @@ def logout_view(request):
 
 # tabled for another day, sign up for new users
 def registration(request):
-    return render_to_response("registration.html")
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return HttpResponseRedirect("home")
+    else:
+        form = UserCreationForm()
+    return render_to_response("registration/registration.html", {
+        'form': form,
+    })
 
 
 
@@ -63,7 +77,6 @@ def detail(request, user_id):
 
 @csrf_exempt
 def update_info(request, user_id):
-    print request.method
     if request.method == 'POST':
         date = request.POST.get('date')
         time = request.POST.get('time')
@@ -73,7 +86,7 @@ def update_info(request, user_id):
           vitals = current.dailyvital_set.all()
         except User.DoesNotExist:
           raise Http404
-    return render_to_response('detail.html',  {'current_user': current, 'vitals': vitals, 'id': user_id},
+    return render_to_response('update.html',  {'current_user': current, 'vitals': vitals, 'id': user_id},
                                 context_instance=RequestContext(request))
 
 

@@ -1,60 +1,67 @@
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Update</title>
+<TITLE>Updating {{ vital.user }} Info</TITLE>
+	<SCRIPT LANGUAGE="JavaScript" SRC="/javascript/calendarpopup/combined-compact/CalendarPopup.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript">
+	var cal = new CalendarPopup();
+	</SCRIPT>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<style>
-body{
-	font-family:Arial,Helvetica,sans-serif;
-	font-size: 12px;
-}
-</style>
+	
+	<style>
+		body{
+			font-family:Arial,Helvetica,sans-serif;
+			font-size: 12px;
+			}
+	</style>
 </head>
-<!-- mind your cases, lauren -->
+
+
+
 <body>
-	<h1> user id  {{ id }}</h1>
+	<h1> Update for {{ vital.user }}</h1>
 	{{ state }}
 	<form action="/user/{{ id }}/update_info/" method="post">
-		<input type="hidden" name="next" value="{{ next }}" />
-		Date:
-		<input type="date" name="date" /><br />
-		Time:
-		<input type="time" name="time" /><br />
-
-		High BGL for Today:
-		<input type="text" name="high_BGL" /><br />
-		Low BGL for Today:
-		<input type="text" name="low_BGl" /><br />
-		How would you rate your diet (1-10):
-		<input type="text" name="diet" /><br />
-		How would you rate your activity level (1-10):
-		<input type="text" name="activity" /><br />
-		How would you rate your overall mood (1-10):
-		<input type="text" name="mood" /><br />
-		Anything memorable about today:
-		<input type="text" name="comments" /><br />
-		Any change in medications for today:
-		<input type="text" name="medications" /><br />
-		<p>Optional fields below, track when you want to:</p>
-
-		How much do you currently weight?:
-		<input type="text" name="weight" /><br />
-		What is your most recent blood pressure (systolic):
-		<input type="text" name="systolic" /><br />
-		What is your most recent blood pressure (diastolic):
-		<input type="text" name="diastolic"  /><br />
-		Any change in medications for today:
-		<input type="text" name="medications" /><br />
+		<input type="hidden" name="next" value="{{ next }}" /> 
 		
 
 
+		Date:
+		<input type="text" name="entered_at" value="" size=25>
+		<A HREF="#"
+   		onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;"
+   		NAME="anchor1" ID="anchor1">select</A><br>
 
 
 
+
+		High BGL for Today:
+		<input type="int" id="high_BGL" /><br>
+		Low BGL for Today:
+		<input type="int" id="low_BGL" /><br>
+		Anything memorable about today:
+		<input type="text" id="comments" /><br>
+
+	<div class=qualitative>
+		How would you rate your diet (1-10):
+		<input type="range" id="diet" min="0" max="10" step ="1"/><br>
+		How would you rate your activity level (1-10):
+		<input type="range" id="activity" min="0" max="10" step ="1"/><br>
+		How would you rate your overall mood (1-10):
+		<input type="range" id="mood" min="0" max="10" step ="1"/><br>
+	</div>
+	
+
+	<div class=optional>
+		How much do you currently weight?:
+		<input type="int" id="weight" /><br>
+		What is your most recent blood pressure:
+		<input type="int" id="systolic"  />/<input type="int" id="diastolic"  /><br>
+		Any change in medications for today:
+		<input type="text" id="medications" /><br>
+	</div>
 		<input type="submit" value="Update" />
 	</form>
 </body>
@@ -62,10 +69,10 @@ body{
 </html>
 
 
+<p>here will be a button to return to the main details dashboard</p>
+<a href="user/{{ id }}/detail">back button to the main user dashboard</a><br><br><br>
 
 
-<p>and then this other thing that lets you download all your data or print or whateves</p>
-<a href="download">Click this ugly thing to download all your data!</a><br><br><br>
 
 <style type = "text/css">
 table, td  {
@@ -84,8 +91,7 @@ table, td  {
 	<td>Mood</td>
 	<td>Comments</td>
 	<td>Weight</td>
-	<td>Systolic</td>
-	<td>Diastolic</td>
+	<td>Blood Pressure</td>
 	<td>Medications</td>
 	<td>Date</td>
 	<td>Time</td>
@@ -112,8 +118,7 @@ table, td  {
 
 	<td>{{ vital.comments }}</td> 
 	<td>{{ vital.weight }}</td>
-	<td>{{ vital.systolic }}</td>
-	<td>{{ vital.diastolic }}</td>
+	<td>{{ vital.systolic }} / {{ vital.diastolic }}</td>
 	<td>{{ vital.medications }}</td>
 	<!-- filters that pesky timedatefeild -->
 	<td>{{ vital.entered_at|date }}</td>  

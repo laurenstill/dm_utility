@@ -6,6 +6,7 @@ from models import DailyVital
 
 
 
+
 class UserProfileForm(forms.Form):
 	user = forms.OneToOneField(User, unique=True)
 	birthday = forms.DateField(null = True, blank = True)
