@@ -103,11 +103,11 @@ def update_info(request, user_id):
     if request.method == 'POST':
         date = request.POST.get('date')
         time = request.POST.get('time')
-        print date, time
         try:
-          current = User.objects.get(pk=user_id)
-          vitals = current.dailyvital_set.all()
-          medications = current.medication_set.all()
+            current = User.objects.get(pk=user_id)
+            vitals = current.dailyvital_set.all()
+            medications = current.medication_set.all()
+            form.save()
         except User.DoesNotExist:
           raise Http404
     return render_to_response('update.html',  {'current_user': current, 'vitals': vitals, "medications": medications,'id': user_id},
@@ -122,6 +122,7 @@ def update(request, user_id):
     	vitals = current.dailyvital_set.all()
         medications = current.medication_set.all()
     	# current = User.objects.filter(id=user_id).one()
+
     except User.DoesNotExist:
     	raise Http404
     return render_to_response('update.html', {"current_user": current, "vitals": vitals, "medications": medications, "id": user_id})

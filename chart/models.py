@@ -43,8 +43,8 @@ class DailyVital(models.Model):
 class Medication(models.Model):
 	user =  models.ForeignKey(User)
 	medication = models.CharField(blank = True, max_length = 300)
-	date_started = models.DateTimeField()
-	current_until = models.DateTimeField()
+	started_at = models.DateTimeField()
+	stopped_at = models.DateTimeField()
 	active = models.BooleanField()
 	side_effects =  models.CharField(blank = True, max_length = 500)
 	prescribind_dr = models.CharField(blank=True, max_length=500)
@@ -54,6 +54,7 @@ class Medication(models.Model):
 
 	def __unicode__(self):
 		return self.user.username
+
 
 
 

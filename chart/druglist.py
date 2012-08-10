@@ -21,6 +21,9 @@ def load_medications(filename):
 		ReferenceDrug = fields[6]
 		DrugName = fields[7]
 		ActiveIngred = fields[8]
+		# key = DrugName.split()
+		# key = key[:2]
+
 
 		meds = {
 				"ApplNo": ApplNo,	
@@ -35,13 +38,13 @@ def load_medications(filename):
 			}		
 		meds_dict[DrugName] = meds
 	f.close()
-	return meds_dict
+	return meds_dict.keys()
 
 
 def main():
 	x = load_medications("druglist.txt")
-	print x["RUBRATOPE-57"]
-	# print x.keys()
+	print x
+
 
 
 

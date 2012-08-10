@@ -19,7 +19,6 @@
 <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
 
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	
 	<style>
 		body{
 			font-family:Arial,Helvetica,sans-serif;
@@ -29,83 +28,95 @@
 </head>
 
 <div class="breadcrumbs">
-<a href="/">Home</a>
-<a href="user_detail">Dashboard</a>
-<a href="update">Update</a>    
-<a href="/user/{{ id }}/update/download">Download</a> 
-<a href="/registration">Registration</a>
-<a href="/user/{{ id }}/logout">Logout</a>  
-
+	<a href="/">Home</a>
+	<a href="user_detail">Dashboard</a>
+	<a href="update">Update</a>    
+	<a href="/user/{{ id }}/update/download">Download</a> 
+	<a href="/registration">Registration</a>
+	<a href="/user/{{ id }}/logout">Logout</a>  
 </div>
 
 <body>
 	<h1> Daily Update for {{ current_user }}</h1>
-	<form action="/user/{{ id }}/update_info/" method="post">
-		<input type="hidden" name="next" value="{{ next }}" /> 
+	<div class ="update">
+		<form action="/user/{{ id }}/update_info/" method="post">
+			<input type="hidden" name="next" value="{{ next }}" /> 
 
-		Date: 
-		<input id="id_entered_at_0" type="text" class="vDateField" name="entered_at_0" size="10">
-		<a href="javascript:DateTimeShortcuts.handleCalendarQuickLink(0, 0);">Today</a>
-		<a href="javascript:DateTimeShortcuts.openCalendar(0);" id="calendarlink0">
-		<img src="/static/icon_calendar.gif" alt="Calendar"></a></span><br>
+			Date: 
+			<input id="id_entered_at_0" type="text" class="vDateField" name="entered_at_0" size="10">
+			<a href="javascript:DateTimeShortcuts.handleCalendarQuickLink(0, 0);">Today</a>
+			<a href="javascript:DateTimeShortcuts.openCalendar(0);" id="calendarlink0">
+			<img src="/static/icon_calendar.gif" alt="Calendar"></a></span><br>
 
- 
-		Time: 
-		<input id="id_entered_at_1" type="text" class="vTimeField" name="entered_at_1" size="8">
-		<a href="javascript:DateTimeShortcuts.handleClockQuicklink(0, new Date().strftime('%H:%M:%S'));">Now</a>
-		<a href="javascript:DateTimeShortcuts.openClock(0);" id="clocklink0">
-		<img src="/static/icon_clock.gif" alt="Clock"></a></span></p>
-
-
-		High BGL for Today:
-		<input type="int" id="high_BGL" /><br>
-		Low BGL for Today:
-		<input type="int" id="low_BGL" /><br>
-		Anything memorable about today:
-		<input type="text" id="comments" /><br>
-
-	<div class=qualitative>
-		How would you rate your diet (1-10):
-		<input type="range" id="diet" min="0" max="10" step ="1"/><br>
-		How would you rate your activity level (1-10):
-		<input type="range" id="activity" min="0" max="10" step ="1"/><br>
-		How would you rate your overall mood (1-10):
-		<input type="range" id="mood" min="0" max="10" step ="1"/><br>
-	</div>
-	
-
-	<div class=optional>
-	<h1>Would you like to update the below inforation? 
-		How much do you currently weight?:
-		<input type="int" id="weight" /><br>
-		Current height:
-		<input type="int" id="height" /><br>
-		What is your most recent blood pressure:
-		<input type="int" id="systolic"  /> / <input type="int" id="diastolic"  /><br>
-		<div class=medications>
+	 
+			Time: 
+			<input id="id_entered_at_1" type="text" class="vTimeField" name="entered_at_1" size="8">
+			<a href="javascript:DateTimeShortcuts.handleClockQuicklink(0, new Date().strftime('%H:%M:%S'));">Now</a>
+			<a href="javascript:DateTimeShortcuts.openClock(0);" id="clocklink0">
+			<img src="/static/icon_clock.gif" alt="Clock"></a></span></p>
 
 
+			High BGL for Today:
+			<input type="int" id="high_BGL" /><br>
+			Low BGL for Today:
+			<input type="int" id="low_BGL" /><br>
+			Anything memorable about today:
+			<input type="text" id="comments" /><br>
 
-
-
+		<div class=qualitative>
+			How would you rate your diet (1-10):
+			<input type="range" id="diet" min="0" max="10" step ="1"/><br>
+			How would you rate your activity level (1-10):
+			<input type="range" id="activity" min="0" max="10" step ="1"/><br>
+			How would you rate your overall mood (1-10):
+			<input type="range" id="mood" min="0" max="10" step ="1"/><br>
 		</div>
+		
 
+		<div class=optional>
+		<h1>Would you like to update the below optional inforation? 
+			How much do you currently weight (pounds):
+			<input type="int" id="weight" /><br>
+			Current height (inches):
+			<input type="int" id="height" /><br>
+			What is your most recent blood pressure:
+			<input type="int" id="systolic"  /> / <input type="int" id="diastolic"  /><br>
+			<div class=medications>
+				<style type = "text/css">
+						table, td  {
+						padding: 5px; 
+						border: 1px;
+						color: #333;
+						}
+				</style>
+				<table> 
+					<tr>
+						<td>Medication</td>
+						<td>Starting</td>
+						<td>Stopping</td>
+						<td>Change Dose</td>
+						<td>Side Effects</td>
+						<td>Doctor</td>
+						<td>Comments</td>
+					</tr>
+					<tr>
+						<!-- how to make only meds portion auto complete with medications dictonary? -->
+						<td><input type="text" id="medication" /><br></td>
+						<!-- how to make radio buttons signal time/date inputs appropriate -->
+						<td><input type="radio" name="started_at" /><br></td>
+						<td><input type="radio" name="stopped_at" /><br></td>
+						<td><input type="text" id="dosage" /><br></td>
+						<td><input type="text" id="side_effects" /><br></td>
+						<td><input type="text" id="prescribind_dr" /><br></td>
+						<td><input type="text" id="comments" /><br></td>
+					</tr>
 
-
-
-
-
+			</div>
+		</div>
+			<input type="submit" value="Update" />
+		</form>
 	</div>
-
-	<div class=medications>
-
-
-
-	</div> 
-		<input type="submit" value="Update" />
-	</form>
 </body>
-
 </html>
 
 
@@ -115,57 +126,57 @@
 <a href="user/{{ id }}/detail">back button to the main user dashboard</a><br><br><br>
 
 
+<div class="review">
+	<style type = "text/css">
+	table, td  {
+		padding: 5px; 
+		border: 1px;
+    	color: #333;
+	}
+	</style>
+	<head><b>Your Current Stats:</b></head>
+	<table> 
+	<tr>
+		<td>User</td>
+		<td>High BGL</td>
+		<td>Low BGL</td>
+		<td>Diet</td>
+		<td>Activity</td>
+		<td>Mood</td>
+		<td>Comments</td>
+		<td>Weight</td>
+		<td>Blood Pressure</td>
+		<td>Date</td>
+		<td>Time</td>
+	</tr>
+	{% for vital in vitals %}
+	<tr>
+		<td>{{ vital.user }}</td>
+		<td>{{ vital.high_BGL }}</td>
+		<td>{{ vital.low_BGL }}</td>
+		<td>{{ vital.diet }}</td>
+		<td>{{ vital.activity }}</td>
 
-<style type = "text/css">
-table, td  {
-	padding: 5px; 
-	border: 1px solid black;
-}
-</style>
-<head><b>Your Current Stats:</b></head>
-<table> 
-<tr>
-	<td>User</td>
-	<td>High BGL</td>
-	<td>Low BGL</td>
-	<td>Diet</td>
-	<td>Activity</td>
-	<td>Mood</td>
-	<td>Comments</td>
-	<td>Weight</td>
-	<td>Blood Pressure</td>
-	<td>Date</td>
-	<td>Time</td>
-</tr>
-{% for vital in vitals %}
-<tr>
-	<td>{{ vital.user }}</td>
-	<td>{{ vital.high_BGL }}</td>
-	<td>{{ vital.low_BGL }}</td>
-	<td>{{ vital.diet }}</td>
-	<td>{{ vital.activity }}</td>
-	
 
-<!-- just playing around with how one would make some of the info more user readable -->
-<!-- not particularly useful right meow -->
-<!-- for later, think about drop down selection boxes if you want more detail specific information -->
-<!-- either way, normalize input, lauren cant spell-->
-	{% if vital.mood < 4 %}
-		<td> Bad </td>
-	{% elif vital.mood > 3 and vital.mood < 7  %}
-		<td>Average</td>
-	{% else %}
-		<td>Good</td>
-	{% endif %}
+	<!-- just playing around with how one would make some of the info more user readable -->
+	<!-- not particularly useful right meow -->
+	<!-- for later, think about drop down selection boxes if you want more detail specific information -->
+	<!-- either way, normalize input, lauren cant spell-->
+		{% if vital.mood < 4 %}
+			<td> Bad </td>
+		{% elif vital.mood > 3 and vital.mood < 7  %}
+			<td>Average</td>
+		{% else %}
+			<td>Good</td>
+		{% endif %}
 
-	<td>{{ vital.comments }}</td> 
-	<td>{{ vital.weight }}</td>
-	<td>{{ vital.systolic }} / {{ vital.diastolic }}</td>
-	<!-- filters that pesky timedatefeild -->
-	<td>{{ vital.entered_at|date }}</td>  
-	<td>{{ vital.entered_at|time }}</td> 
-</tr> 
-{% endfor %}
-
-</table><br>
-
+		<td>{{ vital.comments }}</td> 
+		<td>{{ vital.weight }}</td>
+		<td>{{ vital.systolic }} / {{ vital.diastolic }}</td>
+		<!-- filters that pesky timedatefeild -->
+		<td>{{ vital.entered_at|date }}</td>  
+		<td>{{ vital.entered_at|time }}</td> 
+	</tr> 
+	{% endfor %}
+	</table><br>
+</div>
