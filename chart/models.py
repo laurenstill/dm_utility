@@ -34,7 +34,7 @@ class DailyVital(models.Model):
 	weight = models.IntegerField(blank = True)
 	systolic = models.IntegerField(blank = True)
 	diastolic = models.IntegerField(blank = True)
-	medications = models.CharField(blank = True, max_length = 300)
+	# medications = models.CharField(blank = True, max_length = 300)
 	def __unicode__(self):
 		# return "%s's Vitals" %(self.user.name)
 		return self.user.username
@@ -47,7 +47,9 @@ class Medication(models.Model):
 	current_until = models.DateTimeField()
 	active = models.BooleanField()
 	side_effects =  models.CharField(blank = True, max_length = 500)
+	prescribind_dr = models.CharField(blank=True, max_length=500)
 	dosage =  models.CharField(blank = True, max_length = 500)
+	comments = models.CharField(blank = True, max_length = 500)
 
 
 	def __unicode__(self):
