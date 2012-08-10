@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
@@ -19,16 +21,16 @@ body{
 
 <div class="breadcrumbs">
 <a href="/">Home</a>
-<a href="/">Dashboard</a> 
-<a href="/">Update</a>    
-<a href="/">Download</a> 
-<a href="registration">Registration</a>
-<a href="/">Logout</a>  
-
+<a href="plz_login">Dashboard</a> 
+<a href="plz_login">Update</a>    
+<a href="plz_login">Download</a> 
+<a href="plz_login">Registration</a>
+<a href="plz_login">Logout</a>  
 </div>
 
 <body>
 	{{ state }}
+</div>
 	<form action="/" method="post">
 		{% csrf_token %}
 		{% if next %}
@@ -42,6 +44,8 @@ body{
 		<input type="submit" value="Log In" />
 	</form>
 </body>
+
+
 
 </html>
 

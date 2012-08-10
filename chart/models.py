@@ -30,13 +30,27 @@ class DailyVital(models.Model):
 	mood = models.IntegerField()
 	comments = models.CharField(blank = True, max_length = 500)
 	####outside the realm of everyday charting, but still included in model on sidebar
+	height = models.IntegerField(blank = True)
 	weight = models.IntegerField(blank = True)
 	systolic = models.IntegerField(blank = True)
 	diastolic = models.IntegerField(blank = True)
 	medications = models.CharField(blank = True, max_length = 300)
-
 	def __unicode__(self):
 		# return "%s's Vitals" %(self.user.name)
+		return self.user.username
+
+
+class Medication(models.Model):
+	user =  models.ForeignKey(User)
+	medication = models.CharField(blank = True, max_length = 300)
+	date_started = models.DateTimeField()
+	current_until = models.DateTimeField()
+	active = models.BooleanField()
+	side_effects =  models.CharField(blank = True, max_length = 500)
+	dosage =  models.CharField(blank = True, max_length = 500)
+
+
+	def __unicode__(self):
 		return self.user.username
 
 
