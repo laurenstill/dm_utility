@@ -39,7 +39,8 @@
 <body>
 	<h1> Daily Update for {{ current_user }}</h1>
 	<div class ="update">
-		<form action="/user/{{ id }}/update_info/" method="post">
+		<form action="{% url update id %}" method="post">
+			{% csrf_token %}
 			<input type="hidden" name="next" value="{{ next }}" /> 
 
 			Date: 
@@ -57,11 +58,11 @@
 
 
 			High BGL for Today:
-			<input type="int" id="high_BGL" /><br>
+			<input type="int" id="high_BGL" name="high_BGL"/><br>
 			Low BGL for Today:
-			<input type="int" id="low_BGL" /><br>
+			<input type="int" id="low_BGL" name="low_BGL"/><br>
 			Anything memorable about today:
-			<input type="text" id="comments" /><br>
+			<input type="text" id="comments" name="comments"/><br>
 
 		<div class=qualitative>
 			How would you rate your diet (1-10):
@@ -74,22 +75,26 @@
 		
 
 		<div class=optional>
-		<h1>Would you like to update the below optional inforation? 
+		<h3>Would you like to update the below optional inforation?</h3>
 			How much do you currently weight (pounds):
 			<input type="int" id="weight" /><br>
 			Current height (inches):
 			<input type="int" id="height" /><br>
 			What is your most recent blood pressure:
 			<input type="int" id="systolic"  /> / <input type="int" id="diastolic"  /><br>
+			
+
 			<div class=medications>
+				<h3>Would you like to update your medications?</h3>
 				<style type = "text/css">
 						table, td  {
 						padding: 5px; 
 						border: 1px;
-						color: #333;
 						}
 				</style>
-				<table> 
+
+
+				<table id = "1"> 
 					<tr>
 						<td>Medication</td>
 						<td>Starting</td>
@@ -110,14 +115,14 @@
 						<td><input type="text" id="prescribind_dr" /><br></td>
 						<td><input type="text" id="comments" /><br></td>
 					</tr>
-
+				</table>
+				</div>
 			</div>
 		</div>
 			<input type="submit" value="Update" />
 		</form>
 	</div>
-</body>
-</html>
+
 
 
 
@@ -126,57 +131,57 @@
 <a href="user/{{ id }}/detail">back button to the main user dashboard</a><br><br><br>
 
 
-<div class="review">
-	<style type = "text/css">
-	table, td  {
-		padding: 5px; 
-		border: 1px;
-    	color: #333;
-	}
-	</style>
-	<head><b>Your Current Stats:</b></head>
-	<table> 
-	<tr>
-		<td>User</td>
-		<td>High BGL</td>
-		<td>Low BGL</td>
-		<td>Diet</td>
-		<td>Activity</td>
-		<td>Mood</td>
-		<td>Comments</td>
-		<td>Weight</td>
-		<td>Blood Pressure</td>
-		<td>Date</td>
-		<td>Time</td>
-	</tr>
-	{% for vital in vitals %}
-	<tr>
-		<td>{{ vital.user }}</td>
-		<td>{{ vital.high_BGL }}</td>
-		<td>{{ vital.low_BGL }}</td>
-		<td>{{ vital.diet }}</td>
-		<td>{{ vital.activity }}</td>
+	<div class="review">
+		<style type = "text/css">
+		table, td  {
+			padding: 5px; 
+			border: 1px;
+		}
+		</style>
+		<h3><b>Your Current Stats:</b></h3>
+		<table id="2"> 
+		<tr>
+			<td>User</td>
+			<td>High BGL</td>
+			<td>Low BGL</td>
+			<td>Diet</td>
+			<td>Activity</td>
+			<td>Mood</td>
+			<td>Comments</td>
+			<td>Weight</td>
+			<td>Blood Pressure</td>
+			<td>Date</td>
+			<td>Time</td>
+		</tr>
+		{% for vital in vitals %}
+		<tr>
+			<td>{{ vital.user }}</td>
+			<td>{{ vital.high_BGL }}</td>
+			<td>{{ vital.low_BGL }}</td>
+			<td>{{ vital.diet }}</td>
+			<td>{{ vital.activity }}</td>
+		<!-- just playing around with how one would make some of the info more user readable -->
+		<!-- not particularly useful right meow -->
+		<!-- for later, think about drop down selection boxes if you want more detail specific information -->
+		<!-- either way, normalize input, lauren cant spell-->
+			{% if vital.mood < 4 %}
+				<td> Bad </td>
+			{% elif vital.mood > 3 and vital.mood < 7  %}
+				<td>Average</td>
+			{% else %}
+				<td>Good</td>
+			{% endif %}
 
+			<td>{{ vital.comments }}</td> 
+			<td>{{ vital.weight }}</td>
+			<td>{{ vital.systolic }} / {{ vital.diastolic }}</td>
+			<!-- filters that pesky timedatefeild -->
+			<td>{{ vital.entered_at|date }}</td>  
+			<td>{{ vital.entered_at|time }}</td> 
+		</tr> 
+		{% endfor %}
+		</table><br>
+	</div>
 
-	<!-- just playing around with how one would make some of the info more user readable -->
-	<!-- not particularly useful right meow -->
-	<!-- for later, think about drop down selection boxes if you want more detail specific information -->
-	<!-- either way, normalize input, lauren cant spell-->
-		{% if vital.mood < 4 %}
-			<td> Bad </td>
-		{% elif vital.mood > 3 and vital.mood < 7  %}
-			<td>Average</td>
-		{% else %}
-			<td>Good</td>
-		{% endif %}
-
-		<td>{{ vital.comments }}</td> 
-		<td>{{ vital.weight }}</td>
-		<td>{{ vital.systolic }} / {{ vital.diastolic }}</td>
-		<!-- filters that pesky timedatefeild -->
-		<td>{{ vital.entered_at|date }}</td>  
-		<td>{{ vital.entered_at|time }}</td> 
-	</tr> 
-	{% endfor %}
-	</table><br>
-</div>
+</body>
+</html>

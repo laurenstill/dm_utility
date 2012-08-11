@@ -1,4 +1,4 @@
-from chart.models import UserProfile
+from chart.models import UserProfile, Medication
 from chart.models import DailyVital
 from django.contrib import admin
 
@@ -9,6 +9,4 @@ class DailyVitalAdmin(admin.ModelAdmin):
 	list_display = ('user', 'entered_at')
 
 admin.site.register(DailyVital, DailyVitalAdmin)
-
-
-
+admin.site.register(Medication)

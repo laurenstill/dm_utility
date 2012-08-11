@@ -110,22 +110,27 @@ def update_info(request, user_id):
             form.save()
         except User.DoesNotExist:
           raise Http404
-    return render_to_response('update.html',  {'current_user': current, 'vitals': vitals, "medications": medications,'id': user_id},
-                                context_instance=RequestContext(request))
+    return render(request, 'update.html',  {'current_user': current, 
+        'vitals': vitals, "medications": medications,'id': user_id})
 
 
 # this works kinda, does not push info into db or save it or any of that good stuff
 
 def update(request, user_id):
-    try:
-    	current = User.objects.get(pk=user_id)
-    	vitals = current.dailyvital_set.all()
-        medications = current.medication_set.all()
-    	# current = User.objects.filter(id=user_id).one()
+    if request.method == 'POST':
+        print request.POST
+        return redirect("user_detail", user_id=user_id)
+    else:
+        try:
+            current = User.objects.get(pk=user_id)
+            vitals = current.dailyvital_set.all()
+            medications = current.medication_set.all()
+            # current = User.objects.filter(id=user_id).one()
 
-    except User.DoesNotExist:
-    	raise Http404
-    return render_to_response('update.html', {"current_user": current, "vitals": vitals, "medications": medications, "id": user_id})
+        except User.DoesNotExist:
+            raise Http404
+        return render(request, 'update.html', {"current_user": current, 
+            "vitals": vitals, "medications": medications, "id": user_id})
 
 def download(request,user_id):
 	return HttpResponse("This is where you can export PHI in txt html or ccd format.")

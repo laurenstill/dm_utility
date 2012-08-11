@@ -7,7 +7,7 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User, unique=True)
 	birthday = models.DateField(null = True, blank = True)
 	updated_at = models.DateTimeField(default=datetime.datetime.utcnow)
-	phone_number = models.IntegerField(null=True, blank=True, max_length=15)  #assigned phone number for emg contact
+	phone_number = models.CharField(blank=True, max_length=15)  #assigned phone number for emg contact
 	# activation_key = models.CharField(max_length=40)
 	# key_expires = models.DateTimeField()
 	
@@ -30,8 +30,8 @@ class DailyVital(models.Model):
 	mood = models.IntegerField()
 	comments = models.CharField(blank = True, max_length = 500)
 	####outside the realm of everyday charting, but still included in model on sidebar
-	height = models.IntegerField(blank = True)
-	weight = models.IntegerField(blank = True)
+	height = models.IntegerField(blank = True, null = True)
+	weight = models.IntegerField(blank = True, null = True)
 	systolic = models.IntegerField(blank = True)
 	diastolic = models.IntegerField(blank = True)
 	# medications = models.CharField(blank = True, max_length = 300)
@@ -44,10 +44,9 @@ class Medication(models.Model):
 	user =  models.ForeignKey(User)
 	medication = models.CharField(blank = True, max_length = 300)
 	started_at = models.DateTimeField()
-	stopped_at = models.DateTimeField()
-	active = models.BooleanField()
+	stopped_at = models.DateTimeField(blank = True, null = True)
 	side_effects =  models.CharField(blank = True, max_length = 500)
-	prescribind_dr = models.CharField(blank=True, max_length=500)
+	prescribing_dr = models.CharField(blank=True, max_length=500)
 	dosage =  models.CharField(blank = True, max_length = 500)
 	comments = models.CharField(blank = True, max_length = 500)
 
