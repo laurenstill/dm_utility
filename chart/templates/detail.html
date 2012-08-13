@@ -1,20 +1,9 @@
-
+<html>
+<head>
 
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/forms.css" />
 
-<div class="breadcrumbs">
-<a href="/">Home</a>
-<a href="user_detail">Dashboard</a> 
-<a href="update">Update</a>    
-<a href="user/{{ id }}/update/download">Download</a> 
-<a href="/registration">Registration</a>
-<a href="/logout">Logout</a>  
-
-</div>
-
-<html>
-<head>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<script src="http://code.highcharts.com/highcharts.js"></script>
 	<script src="http://code.highcharts.com/modules/exporting.js"></script>
@@ -22,191 +11,166 @@
 	<script type="text/javascript" src="http://www.highcharts.com/highslide/highslide-full.min.js"></script>
 	<script type="text/javascript" src="http://www.highcharts.com/highslide/highslide.config.js" charset="utf-8"></script>
 	<link rel="stylesheet" type="text/css" href="http://www.highcharts.com/highslide/highslide.css" />
+
+
+<script>
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+	"Oct", "Nov", "Dec"];
+var vital_data = {{data|safe}};
+var comments = {};
+
+
+var chart;
+Highcharts.setOptions({
+	chart: {
+		style: {
+    		fontFamily: 'monospace',
+    		// color: "#FFFFFF", not working, not sure why not
+			}
+	}
+});
+
+$(document).ready(function() {
+	// Prepare our data series
+	var mood = [];
+	var activity = [];
+	var x_axis = [];
+	var high_bgl = [];
+	var low_bgl = [];
+	var diet = [];
+
+	for (var i = 0; i < vital_data.length; i++) {
+		var vital = vital_data[i].fields;
+		mood.push(vital.mood);
+		activity.push(vital.activity);
+		var date = new Date(vital.entered_at);
+		var date_str = months[date.getMonth()] + "-" + date.getDate();
+		x_axis.push(date_str);
+		high_bgl.push(vital.high_BGL);
+		low_bgl.push(vital.low_BGL);
+		diet.push(vital.diet);
+		comments[date_str] = vital.comments;
+	}
+
+  chart = new Highcharts.Chart({
+     chart: {
+        renderTo: 'container1',
+        type: 'line',
+        marginRight: 130,
+        marginBottom: 25,
+        width: 800,
+    },
+     title: {
+        text: 'Blood Glucose Variation' 
+    },
+     xAxis: {
+        categories: x_axis
+	},
+     yAxis: {
+        title: {
+           text: 'Daily BGL Measurements'
+        }
+     },
+	tooltip: {
+        formatter: function() {
+                return comments[this.x];			
+        }
+    },       
+		credits: {
+		enabled: false
+		},
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -10,
+        y: 100,
+        borderWidth: 0
+    },
+     series: [{
+        name: 'High BGL',
+        // color: '#0066ff',
+        data: high_bgl
+     }, {
+        name: 'Low BGL',
+        // color: '#FF0000',
+        data: low_bgl
+     }]
+  });
+
+
+
+
+chart2 = new Highcharts.Chart({
+	chart: {
+	    renderTo: 'container2',
+	    type: 'line',
+	    marginRight: 130,
+	    marginBottom: 25,
+	    width: 800,
+
+	},
+	 title: {
+	    text: 'Qualitative Health'
+	},
+	 xAxis: {
+	    categories: x_axis
+		},
+	 yAxis: {
+	    title: {
+	       text: 'Qualitative Scale'
+	    }
+	 },
+		tooltip: {
+	        formatter: function() {
+	            return comments[this.x];			
+	        }
+	    },
+		credits: {
+			enabled: false
+		},
+	    legend: {
+	        layout: 'vertical',
+	        align: 'right',
+	        verticalAlign: 'top',
+	        x: -10,
+	        y: 100,
+	        borderWidth: 0
+	    },
+
+
+// normalize this somehow, perhaps with a more readable scale, or condensed, user enters info on slider
+    series: [{
+        name: 'Mood',
+        data: mood
+    	}, {
+        name: 'Diet',
+        data: diet
+		},
+		{
+        name: 'Activity',
+        data: activity
+     	}]
+		});
+});
+</script>
+
+</head>
+<body>
+
+	<div class="breadcrumbs">
+	<a href="/">Home</a>
+	<a href="user_detail">Dashboard</a> 
+	<a href="update">Update</a>    
+	<a href="user/{{ id }}/update/download">Download</a> 
+	<a href="/registration">Registration</a>
+	<a href="/logout">Logout</a>  
+
+	</div>
+
+
 	<div id="container1" style="width: 100%; height: 500px"></div>
 	<div id="container2" style="width: 100%; height: 250px"></div>
-</head>
-
-<div=graph1>
-		<script>
-		Highcharts.setOptions({
-    		chart: {
-        		style: {
-            		fontFamily: 'monospace',
-            		// color: "#FFFFFF", not working, not sure why not
-       			}
-    		}
-		});
-
-		 var chart; 
-		$(document).ready(function() {
-	      chart = new Highcharts.Chart({
-	         chart: {
-	            renderTo: 'container1',
-	            type: 'line',
-	            marginRight: 130,
-                marginBottom: 25,
-                width: 800,
-	        },
-	         title: {
-	            text: 'Blood Glucose Variation' 
-	        },
-	         xAxis: {
-	            categories: [{% for vital in vitals %}
-						"{{ vital.entered_at|date:"M-d" }}",
-						{% endfor %}]
-        	},
-	         yAxis: {
-	            title: {
-	               text: 'Daily BGL measurements'
-	            }
-	         },
-			tooltip: {
-                formatter: function() {
-                        return [{% for vital in vitals %}
-								'{{ vital.comments }}',
-								{% endfor %}]			
-                }
-            },       
-  			credits: {
-    			enabled: false
-  			},
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -10,
-                y: 100,
-                borderWidth: 0
-            },
-	         series: [{
-	            name: 'High BGL',
-	            // color: '#0066ff',
-	            data: [{% for vital in vitals %} 
-					{{ vital.high_BGL }},
-					{% endfor %}]
-	         }, {
-	            name: 'Low BGL',
-	            // color: '#FF0000',
-	            data: [{% for vital in vitals %}
-						{{ vital.low_BGL }},
-						{% endfor %}]
-	         }]
-	      });
-	   });
-		</script>
-	</div>
-
-
-
-	<!-- change this not a line graph -->
-	<!-- better way to display?> -->
-	<!-- maybe i can just squat it short -->
-	<div=graph2>
-		<script>
-		 var chart; 
-		$(document).ready(function() {
-	      chart = new Highcharts.Chart({
-	         chart: {
-	            renderTo: 'container2',
-	            type: 'line',
-	            marginRight: 130,
-                marginBottom: 25,
-                width: 800,
-
-	        },
-	         title: {
-	            text: 'Qualitative Health'
-	        },
-	         xAxis: {
-	            categories: [{% for vital in vitals %}
-						"{{ vital.entered_at|date:"M-d" }}",
-						{% endfor %}]
-        	},
-	         yAxis: {
-	            title: {
-	               text: 'Qualitative Scale'
-	               // change the scale to reflect
-	               // categories: ['Poor', 'Average', 'Great']
-	            }
-	         },
-			tooltip: {
-                formatter: function() {
-                        return [{% for vital in vitals %}
-								'{{ vital.comments }}',
-								{% endfor %}]			
-                }
-            },
-  			credits: {
-    			enabled: false
-  			},
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -10,
-                y: 100,
-                borderWidth: 0
-            },
-
-
-            // normalize this somehow, perhaps with a more readable scale, or condensed, user enters info on slider
-	         series: [{
-	            name: 'Mood',
-	            data: [{% for vital in vitals %} 
-					{{ vital.mood }},
-					{% endfor %}]
-	         }, {
-	            name: 'Diet',
-	            data: [{% for vital in vitals %}
-						{{ vital.diet }},
-						{% endfor %}]
-			},
-				{
-	            name: 'Activity',
-	            data: [{% for vital in vitals %}
-						{{ vital.activity }},
-						{% endfor %}]
-	         }]
-	      });
-	   });
-		</script>
-	</div>
-
-<p>and then this other thing that lets you download all your data or print or whateves</p>
 <a href="download">Click this ugly thing to download all your data!</a><br><br><br>
-
+</body>
 </html>
-
-	<!-- <body>
-		<p><var>high_BGL</var> = [{% for vital in vitals %} 
-				{{ vital.high_BGL }},
-				{% endfor %}]</p>
-
-		<p><var>low_BGL</var> = [{% for vital in vitals %}
-					{{ vital.low_BGL }},
-					{% endfor %}]</p>
-
-		<p><var>diet</var> = [{% for vital in vitals %} 
-				{{ vital.diet }},
-				{% endfor %}]</p>
-
-		<p><var>activity</var> = [{% for vital in vitals %} 
-				{{ vital.activity }},
-				{% endfor %}]</p>
-
-		<p><var>mood</var> = [{% for vital in vitals %} 
-				{{ vital.mood }},
-				{% endfor %}]</p>
-		<p><var>comment</var> = [{% for vital in vitals %}
-				{{ vital.comments }},
-				{% endfor %}]</p>
-
-
-	</body>
- -->
-
-
-
-
-
-

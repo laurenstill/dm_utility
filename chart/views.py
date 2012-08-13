@@ -7,11 +7,13 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404, re
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
-from django.views.decorators.csrf import csrf_exempt                                          
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers                                  
 import datetime, random, sha
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
+import validators
 
 
 # from chart.forms import UserProfileForm, DailyVitalForm
@@ -88,15 +90,17 @@ def registration(request):
 
 
 # user detailed main page
-def detail(request, user_id):
+def detail(request):
     try:
-    	current = User.objects.get(pk=user_id)
+    	current = request.user
     	vitals = current.dailyvital_set.all()
+        json_vitals = serializers.serialize("json", vitals)
         medications = current.medication_set.all()
     	# current = User.objects.filter(id=user_id).one()
     except User.DoesNotExist:
     	raise Http404
-    return render_to_response('detail.html', {'current_user': current, 'vitals': vitals, "medications": medications,'id': user_id})
+    return render(request, 'detail.html', {'vitals': vitals, "medications": 
+        medications, 'data': json_vitals})
 
 @csrf_exempt
 def update_info(request, user_id):
@@ -116,21 +120,50 @@ def update_info(request, user_id):
 
 # this works kinda, does not push info into db or save it or any of that good stuff
 
-def update(request, user_id):
+def update(request):
+    print request.user.username
     if request.method == 'POST':
         print request.POST
-        return redirect("user_detail", user_id=user_id)
+        form = validators.VitalsUpdateForm(request.POST)
+
+        if form.is_valid():
+            v = DailyVital()
+            # print type(form.entered_at)
+            v.entered_at = form.cleaned_data['entered_at']
+            v.high_BGL = form.cleaned_data['high_BGL']
+            v.low_BGL = form.cleaned_data['low_BGL']
+            v.diet = form.cleaned_data['diet']
+            v.activity = form.cleaned_data['activity']
+            v.mood = form.cleaned_data['mood']
+            v.comments = form.cleaned_data['comments']
+
+            v.user = request.user
+            v.save()
+
+            return redirect("user_detail")
+            # save to db
+            pass
+
+        else:
+            vitals = request.user.dailyvital_set.all()
+            medications = request.user.medication_set.all()
+            return render(request, 'update.html', {"vitals": vitals, 
+                "medications": medications, "form": form})
+
+
     else:
+        form = validators.VitalsUpdateForm()
+
         try:
-            current = User.objects.get(pk=user_id)
-            vitals = current.dailyvital_set.all()
-            medications = current.medication_set.all()
+            vitals = request.user.dailyvital_set.all()
+            medications = request.user.medication_set.all()
             # current = User.objects.filter(id=user_id).one()
 
         except User.DoesNotExist:
             raise Http404
-        return render(request, 'update.html', {"current_user": current, 
-            "vitals": vitals, "medications": medications, "id": user_id})
+        return render(request, 'update.html', {"vitals": vitals, 
+            "medications": medications,
+            "form": form})
 
 def download(request,user_id):
 	return HttpResponse("This is where you can export PHI in txt html or ccd format.")

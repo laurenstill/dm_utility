@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/forms.css" />
 
-<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/jsi18n/"></script>
 <script type="text/javascript" src="/static/admin/js/core.js"></script>
 <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.js"></script>
@@ -29,18 +29,22 @@
 
 <div class="breadcrumbs">
 	<a href="/">Home</a>
-	<a href="user_detail">Dashboard</a>
-	<a href="update">Update</a>    
+	<a href="/user">Dashboard</a>
+	<a href="/update">Update</a>    
 	<a href="/user/{{ id }}/update/download">Download</a> 
 	<a href="/registration">Registration</a>
-	<a href="/user/{{ id }}/logout">Logout</a>  
+	<a href="/user/logout">Logout</a>  
 </div>
 
 <body>
-	<h1> Daily Update for {{ current_user }}</h1>
+	<h1> Daily Update for {{ request.user }}</h1>
 	<div class ="update">
-		<form action="{% url update id %}" method="post">
+		<form action="{% url update %}" method="post">
+			<table>
+			{{ form.as_table }}
+			</table>
 			{% csrf_token %}
+			<!--
 			<input type="hidden" name="next" value="{{ next }}" /> 
 
 			Date: 
@@ -105,9 +109,9 @@
 						<td>Comments</td>
 					</tr>
 					<tr>
-						<!-- how to make only meds portion auto complete with medications dictonary? -->
+						 how to make only meds portion auto complete with medications dictonary? 
 						<td><input type="text" id="medication" /><br></td>
-						<!-- how to make radio buttons signal time/date inputs appropriate -->
+						 how to make radio buttons signal time/date inputs appropriate 
 						<td><input type="radio" name="started_at" /><br></td>
 						<td><input type="radio" name="stopped_at" /><br></td>
 						<td><input type="text" id="dosage" /><br></td>
@@ -119,15 +123,13 @@
 				</div>
 			</div>
 		</div>
+		-->
 			<input type="submit" value="Update" />
 		</form>
 	</div>
 
 
 
-
-
-<p>here will be a button to return to the main details dashboard</p>
 <a href="user/{{ id }}/detail">back button to the main user dashboard</a><br><br><br>
 
 
@@ -164,13 +166,7 @@
 		<!-- not particularly useful right meow -->
 		<!-- for later, think about drop down selection boxes if you want more detail specific information -->
 		<!-- either way, normalize input, lauren cant spell-->
-			{% if vital.mood < 4 %}
-				<td> Bad </td>
-			{% elif vital.mood > 3 and vital.mood < 7  %}
-				<td>Average</td>
-			{% else %}
-				<td>Good</td>
-			{% endif %}
+			<td>{{ vital.mood_str }}</td>
 
 			<td>{{ vital.comments }}</td> 
 			<td>{{ vital.weight }}</td>

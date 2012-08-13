@@ -32,9 +32,20 @@ class DailyVital(models.Model):
 	####outside the realm of everyday charting, but still included in model on sidebar
 	height = models.IntegerField(blank = True, null = True)
 	weight = models.IntegerField(blank = True, null = True)
-	systolic = models.IntegerField(blank = True)
-	diastolic = models.IntegerField(blank = True)
+	systolic = models.IntegerField(blank = True, null = True)
+	diastolic = models.IntegerField(blank = True, null = True)
 	# medications = models.CharField(blank = True, max_length = 300)
+
+	@property
+	def mood_str(self):
+		if self.mood < 4:
+			return "Bad"
+		elif self.mood < 7:
+			return "Average"
+		else:
+			return "Good"
+
+
 	def __unicode__(self):
 		# return "%s's Vitals" %(self.user.name)
 		return self.user.username

@@ -11,9 +11,9 @@ urlpatterns = patterns('',
     # prompt to log in if you are navigating elseehre
     # url(r'^plz_login$', 'chart.views.plz_login', name="plz_login"),
 	# user main page/dashboard/tracking display:
-	url(r'^user/(?P<user_id>\d+)/$', 'chart.views.detail', name="user_detail"), 
+	url(r'^user/$', 'chart.views.detail', name="user_detail"), 
 	# in house update modual:
-    url(r'^user/(?P<user_id>\d+)/update/$', 'chart.views.update', name="update"), 
+    url(r'^user/update/$', 'chart.views.update', name="update"), 
     # url(r'^user/(?P<user_id>\d+)/update_info/$', 'chart.views.update_info', name="update_info"), 
     # modual to download/save all your phi:
     url(r'^user/(?P<user_id>\d+)/download/$', 'chart.views.download', name="download"),
