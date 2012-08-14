@@ -1,6 +1,6 @@
 # formats information from the Drugs@FDA Data file into something more usable
 # will be used primarily for predictive text selection on user input models for medication tracting and management
-# also may be nice for drug information, but realistically need different db
+# also may be nice for drug information, but realistically need different text
 # http://www.fda.gov/Drugs/InformationOnDrugs/ucm079750.htm 
 
 import sys

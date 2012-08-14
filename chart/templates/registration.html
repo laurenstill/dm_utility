@@ -1,32 +1,28 @@
 <!-- UserCreationForm here:  Users/student/src/LaurensProject/env/lib/python2.7/site-packages/django/contrib/auth -->
-
-
-
-
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/forms.css" />
+</head>
+
 
 <div class="breadcrumbs">
-<a href="/">Home</a>
-<a href="/">Dashboard</a> 
-<a href="/">Update</a>
-<a href="/">Download</a> 
-<a href="registration">Registration</a>
-<a href="logout">Logout</a>  
-
-
-
-
+	<a href="/">Home</a>
+	<a href="/">Dashboard</a> 
+	<a href="/">Update</a>
+	<a href="/">Download</a> 
+	<a href="registration">Registration</a>
+	<a href="logout">Logout</a>  
 </div>
 
+<div class="sign_in">
+	{% block content %}
+	  <h1>Create an account</h1>
 
-{% block title %}Create an account{% endblock %}
-
-{% block content %}
-  <h1>Create an account</h1>
-
-  <form action="" method="post">
-      {{ form.as_p }}
-      <input type="submit" value="Create the account">
-  </form>
-{% endblock %}
+	  <form action="" method="post">
+	      <table>{{ form.as_table }}</table>
+	      <input type="submit" value="Create the account">
+	  </form>
+	{% endblock %}
+</div>
+</html>

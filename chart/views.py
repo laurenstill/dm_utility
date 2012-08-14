@@ -47,40 +47,18 @@ def login_view(request):
     	context_instance = RequestContext(request))
 
 
-# this isnt working right.  
-# @csrf_exempt
-# def plz_login(request):
-#     state = "Sorry you must be logged in to view this page."
-#     username = password = ''
-#     if request.POST:
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         print username, password
-#         user = authenticate(username=username, password=password)
-#         if user is not None:
-#             if user.is_active:
-#                 login(request, user)
-#                 state = "You're successfully logged in!"
-#                 return redirect("user_detail", user_id = user.id)
-#             else:
-#                 state = "Your account is not active, please contact the site admin."
-#         else:
-#            return render_to_response("registration.html", {
-#         'form': form,})
-#     return render_to_response('auth.html',{'state':state, 'username': username},
-#         context_instance = RequestContext(request))
-
-def logout_view(request, user_id):
+def logout_view(request):
     logout(request)
     return redirect("home")
 
+# as of 8/13 this fucking works.  ya csrf exemptions!
 @csrf_exempt
 def registration(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
-            return HttpResponseRedirect("home")
+            return redirect("home")
     else:
         form = UserCreationForm()
     return render_to_response("registration.html", {
@@ -88,8 +66,6 @@ def registration(request):
     })
 
 
-
-# user detailed main page
 def detail(request):
     try:
     	current = request.user
@@ -101,24 +77,6 @@ def detail(request):
     	raise Http404
     return render(request, 'detail.html', {'vitals': vitals, "medications": 
         medications, 'data': json_vitals})
-
-@csrf_exempt
-def update_info(request, user_id):
-    if request.method == 'POST':
-        date = request.POST.get('date')
-        time = request.POST.get('time')
-        try:
-            current = User.objects.get(pk=user_id)
-            vitals = current.dailyvital_set.all()
-            medications = current.medication_set.all()
-            form.save()
-        except User.DoesNotExist:
-          raise Http404
-    return render(request, 'update.html',  {'current_user': current, 
-        'vitals': vitals, "medications": medications,'id': user_id})
-
-
-# this works kinda, does not push info into db or save it or any of that good stuff
 
 def update(request):
     print request.user.username
@@ -149,8 +107,6 @@ def update(request):
             medications = request.user.medication_set.all()
             return render(request, 'update.html', {"vitals": vitals, 
                 "medications": medications, "form": form})
-
-
     else:
         form = validators.VitalsUpdateForm()
 
@@ -165,5 +121,5 @@ def update(request):
             "medications": medications,
             "form": form})
 
-def download(request,user_id):
+def download(request):
 	return HttpResponse("This is where you can export PHI in txt html or ccd format.")

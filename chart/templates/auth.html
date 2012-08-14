@@ -3,20 +3,14 @@
 
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/forms.css" />
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Log in</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<style>
-body{
-	font-family:Arial,Helvetica,sans-serif;
-	font-size: 12px;
-}
-</style>
 </head>
 
-
+<body>
+	
 <div class="breadcrumbs">
 <a href="/">Home</a>
 <a href="/">Dashboard</a> 
@@ -24,24 +18,28 @@ body{
 <a href="/">Download</a> 
 <a href="registration">Registration</a>
 <a href="/">Logout</a>  
-
 </div>
 
-<body>
-	{{ state }}
-	<form action="/" method="post">
-		{% csrf_token %}
-		{% if next %}
-		<input type="hidden" name="next" value="{{ next }}" />
-		{% endif %}
-		Username:
-		<input type="text" name="username" value="{{ username }}" /><br />
-		Password:
-		<input type="password" name="password" value="" /><br />
 
-		<input type="submit" value="Log In" />
-	</form>
+<div class="sign_in">
+	{% block content %} 
+	  <h1> {{ state }}</h1>
+		<form action="" method="post">
+			{% csrf_token %}
+		     {% if next %}
+			<input type="hidden" name="next" value="{{ next }}" />
+			{% endif %}
+			Username:
+			<input type="text" name="username" value="{{ username }}" /><br />
+			Password:
+			<input type="password" name="password" value="" /><br />
+
+	      <input type="submit" value="Log In" />
+
+	  </form>
+	{% endblock %}
+	<p> Not signed up? <a href="registration">Register Here.</a>
+</div>
+
 </body>
-
 </html>
-
