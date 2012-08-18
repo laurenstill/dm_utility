@@ -14,3 +14,17 @@ class VitalsUpdateForm(forms.Form):
 	mood = forms.IntegerField(required = True, min_value = 1, max_value = 10,
 		label="Mood (1-10)")
 	comments = forms.CharField(required=False, label= "Comments")
+
+
+	
+
+class MedsUpdateForm(forms.Form):
+	medication = forms.CharField(required = True, label="Medication")
+	started_at = forms.DateTimeField(required = True, label="Start Date")
+	stopped_at = forms.DateTimeField(required = False, label="End Date")
+	side_effects = forms.CharField(required = False, label="Noticed Side Effects")
+	prescribing_dr = forms.CharField(required = False, label="Prescribing Doctor")
+	dosage = forms.CharField(required = False, label="Dosage")
+	comments = forms.CharField(required=False, label= "Comments")
+
+

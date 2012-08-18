@@ -14,14 +14,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 import validators
-
-
-# from chart.forms import UserProfileForm, DailyVitalForm
-# from django.core.mail import send_mail
-# from django.core.urlresolvers import reverse
-# from django.template import RequestContext
-# from django.contrib.auth.tokens import default_token_generator
-# from django.contrib.sites.models import Site
+# import reportlab
+# from reportlab.pdfgen import canvas
 
 
 
@@ -38,20 +32,19 @@ def login_view(request):
             if user.is_active:
                 login(request, user)
                 state = "You're successfully logged in!"
-                return redirect("user_detail", user_id = user.id)
+                return redirect("user_detail")
             else:
                 state = "Your account is not active, please contact the site admin."
         else:
             state = "Your username and/or password were incorrect."
-    return render_to_response('auth.html',{'state':state, 'username': username},
-    	context_instance = RequestContext(request))
+    return render(request, 'auth.html',{'state':state, 'username': username})
 
 
 def logout_view(request):
     logout(request)
     return redirect("home")
 
-# as of 8/13 this fucking works.  ya csrf exemptions!
+
 @csrf_exempt
 def registration(request):
     if request.method == 'POST':
@@ -78,6 +71,47 @@ def detail(request):
     return render(request, 'detail.html', {'vitals': vitals, "medications": 
         medications, 'data': json_vitals})
 
+
+def meds(request):
+    if request.method == 'POST':
+        print request.POST
+        form = validators.MedsUpdateForm(request.POST)
+
+        if form.is_valid():
+            m = Medication()
+            # print type(form.entered_at)
+            m.medication = form.cleaned_data['medication']
+            m.started_at = form.cleaned_data['started_at']
+            m.stopped_at = form.cleaned_data['stopped_at']
+            m.side_effects = form.cleaned_data['side_effects']
+            m.prescribing_dr = form.cleaned_data['prescribing_dr']
+            m.dosage = form.cleaned_data['dosage']
+            m.comments = form.cleaned_data['comments']
+
+            m.user = request.user
+            m.save()
+
+            return redirect("user_detail")
+            pass
+
+        else:
+            medications = request.user.medication_set.all()
+            return render(request, 'meds.html', {"med": meds, 
+                "medications": medications, "form": form})
+    else:
+        form = validators.VitalsUpdateForm()
+
+        try:
+            vitals = request.user.dailyvital_set.all()
+            medications = request.user.medication_set.all()
+
+        except User.DoesNotExist:
+            raise Http404
+        return render(request, 'meds.html', {"medications": medications, "form": form})
+
+
+
+
 def update(request):
     print request.user.username
     if request.method == 'POST':
@@ -99,7 +133,6 @@ def update(request):
             v.save()
 
             return redirect("user_detail")
-            # save to db
             pass
 
         else:
@@ -113,7 +146,6 @@ def update(request):
         try:
             vitals = request.user.dailyvital_set.all()
             medications = request.user.medication_set.all()
-            # current = User.objects.filter(id=user_id).one()
 
         except User.DoesNotExist:
             raise Http404
@@ -121,5 +153,21 @@ def update(request):
             "medications": medications,
             "form": form})
 
+
+# not sure if working correctly
 def download(request):
-	return HttpResponse("This is where you can export PHI in txt html or ccd format.")
+    response = HttpResponse(mimetype='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=somefilename.pdf'
+    p = canvas.Canvas(response)
+    p.drawString(100, 100, "ALLLLLLL the datas!")
+    p.showPage()
+    p.save()
+    return response
+
+
+
+
+
+
+
+

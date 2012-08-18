@@ -48,7 +48,7 @@ h1,h2,h3,h4,h5 {
 
 h1 {
     font-size: 18px;
-    color: #666;
+    color: #5b80b2;
     padding: 0 6px 0 0;
     margin: 0 0 .2em 0;
 }
@@ -66,7 +66,7 @@ h2.subhead {
 h3 {
     font-size: 14px;
     margin: .8em 0 .3em 0;
-    color: #666;
+    color: #5b80b2;
     font-weight: bold;
 }
 
@@ -79,7 +79,7 @@ h4 {
 h5 {
     font-size: 10px;
     margin: 1.5em 0 .5em 0;
-    color: #666;
+    color: #5b80b2;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -595,17 +595,54 @@ div.system-message p.system-message-title {
     padding: 5px 0 0 12px;
 }
 
-/* BREADCRUMBS */
+/* NAVIGATION */
 
-div.breadcrumbs {
+div.navigation {
     background: white url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;
     padding: 2px 8px 3px 8px;
-    font-size: 11px;
+    font-size: 14px;
     color: #999;
-    border-top: 1px solid white;
-    border-bottom: 1px solid #ccc;
+    border-top: 5px solid white;
+    border-bottom: 5px solid #ccc;
     text-align: left;
+    word-spacing:30px;
 }
+
+/* Log in and registration*/
+div.log_in{
+    text-align: left;
+    padding: 50px;
+
+
+}
+
+div.welcome_block{
+    background: #ccc;
+    width:300px;
+    height: 400px;
+    margin: 20px;
+    border-radius: 10px;
+
+}
+div.welcome{
+    padding: 10px;
+    font-size: 14px;
+    text-align:justify;
+    color: #333;
+
+
+}
+/*div.front_image {
+    background: #ccc;
+    width:600px;
+    height: 400px;
+    margin: 20px;
+    border-radius: 10px;
+
+    float: right;;
+    
+}
+*/
 
 /* ACTION ICONS */
 
@@ -779,7 +816,7 @@ table#change-history tbody th {
 
 #header {
     background: #417690;
-    color: #ffc;
+    color: #5b80b2;
     overflow: hidden;
 }
 
@@ -831,4 +868,75 @@ table#change-history tbody th {
 #content-related .module h2 {
     background: #eee url(../img/nav-bg.gif) bottom left repeat-x;
     color: #666;
+}
+
+
+/*medication page css with timeline widget*/
+
+#timeline{
+    margin: 2.5%;
+}
+.events{
+    width: 100%;
+}
+ul.events {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0 5px 0;
+}
+
+ul.events li {
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    background: #eee;
+    border: 1px solid #ddd;
+    color: #5b80b2;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 3px;
+    position: relative;
+    text-align: center;
+    list-style-type: none;
+}
+
+}
+ul.events li em {
+    color: #5b80b2;
+    font-weight: normal;
+    font-size: 0.9em;
+}
+ul.events li:hover span{
+    display:block;
+    border-radius: 11px;
+    color: #717171;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    line-height: 1.25em;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 0.7em;  
+}
+
+span{
+   display:none;
+}
+
+#x-axis {
+    background-color: #5b80b2;
+    color: #eee;
+}
+#x-axis ul {
+   display: table;
+   list-style-type: none; 
+   padding: 0px;
+   margin: 0px;
+   text-align: center;
+   width: 100%;  
+ }
+#x-axis ul li {
+   display: table-cell;
+    position: absloute;
+
 }

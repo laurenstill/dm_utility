@@ -14,6 +14,9 @@ urlpatterns = patterns('',
 
 	# in house update modual:
     url(r'^user/update/$', 'chart.views.update', name="update"), 
+
+    # medication tracking
+    url(r'^user/meds/$', 'chart.views.meds', name="meds"),
    
     # modual to download/save all your phi:
     url(r'^user/download/$', 'chart.views.download', name="download"),
