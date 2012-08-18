@@ -13,13 +13,13 @@ urlpatterns = patterns('',
 	url(r'^user/$', 'chart.views.detail', name="user_detail"),
 
 	# in house update modual:
-    url(r'^update/$', 'chart.views.update', name="update"), 
+    url(r'^user/update/$', 'chart.views.update', name="update"), 
 
     # medication tracking
-    url(r'^meds/$', 'chart.views.meds', name="meds"),
+    url(r'^user/meds/$', 'chart.views.meds', name="meds"),
    
     # modual to download/save all your phi:
-    url(r'^download/$', 'chart.views.download', name="download"),
+    url(r'^user/download/$', 'chart.views.download', name="download"),
     
     url(r'^logout', 'chart.views.logout_view', name="logout"),
 
