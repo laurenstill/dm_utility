@@ -21,7 +21,9 @@ urlpatterns = patterns('',
     # modual to download/save all your phi:
     url(r'^user/download/$', 'chart.views.download', name="download"),
     
+    url(r'^user/logout', 'chart.views.logout_view', name="logout"),
     url(r'^logout', 'chart.views.logout_view', name="logout"),
+
 
     url(r'^registration', 'chart.views.registration', name="registration"),
 

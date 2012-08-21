@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Updating {{ vital.user }} Medications</title>
-
+<title>Updating {{ user }} Medications</title>
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/forms.css" />
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -13,6 +12,10 @@
 			}
 	</style>
 </head>
+
+
+
+
 
 <div class="navigation">
 	<a href="/">Home</a>
@@ -25,7 +28,7 @@
 </div>
 
 <body>
-	<h1> Daily Update for {{ request.user }}</h1>
+	<h1> Daily Update for {{ user }}</h1>
 	<div class ="meds">
 		<form action="{% url meds %}" method="post">
 			<table>
@@ -37,7 +40,7 @@
 	</div>
 	<div id="timeline">
 	    <ul class="events">
-	        <li style="width: 42%; left: 57%;">Coumadin <em>(Prescribing Dr)</em><span>some text here blah much longer text omg? whatever will happen with this craziness  but realistically this is the longest out there</span></li>
+	        <li style="width: 42%; left: 57%;"> Coumadin <em>(Prescribing Dr)</em><span>some text here blah much longer text omg? whatever will happen with this craziness  but realistically this is the longest out there</span></li>
 	        <li style="width: 59%; left: 40%;">Metformin <em>(Prescribing Dr)</em><span>commnets, side effects, whatever extra info</span></li>
 	        <li style="width: 48%; left: 28%;">Some other med <em>(Prescribing Dr)</em><span>some text here ?</span></li>
 	        <li style="width: 86%; left: 13%;">Insulin <em>(Prescribing Dr)</em><span>some text here ?</span></li>
@@ -56,5 +59,37 @@
 		       </ul>
 	   		</div>            
 		</div>
+
+
+
+
+
+<!-- test area for the data feeds before screwing around with timeline-->
+
+<table> 
+<tr>
+	<td>User</td>
+	<td>Medication</td>
+	<td>Side Effects</td>
+	<td>Dosage</td>
+	<td>Prescribing Dr</td>
+	<td>Comments</td>
+	<td>Date</td>
+	<td>Time</td>
+</tr>
+{% for medication in medication %}
+<tr>
+	<td>{{ medication.user }}</td>
+	<td>{{ medication.medication }}</td>
+	<td>{{ medication.side_effects }}</td>
+	<td>{{ medication.dosage }}</td>
+	<td>{{ medication.prescribing_dr }}</td> 
+	<td>{{ medication.comments }}</td>
+	<td>{{ medication.entered_at|date }}</td>  
+	<td>{{ medication.entered_at|time }}</td> 
+</tr> 
+{% endfor %}
+
+</table>
 	</body>
 </html>

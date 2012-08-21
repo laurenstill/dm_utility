@@ -61,9 +61,9 @@ class Medication(models.Model):
 	dosage =  models.CharField(blank = True, max_length = 500)
 	comments = models.CharField(blank = True, max_length = 500)
 
-
 	def __unicode__(self):
-		return self.user.username
+		return self.user.medication
+
 
 
 

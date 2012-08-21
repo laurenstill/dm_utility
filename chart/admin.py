@@ -8,5 +8,8 @@ admin.site.register(UserProfile)
 class DailyVitalAdmin(admin.ModelAdmin):
 	list_display = ('user', 'entered_at')
 
+class MedicationAdmin(admin.ModelAdmin):
+	list_display = ('user', 'medication')
+
 admin.site.register(DailyVital, DailyVitalAdmin)
 admin.site.register(Medication)

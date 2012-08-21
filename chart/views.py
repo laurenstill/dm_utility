@@ -1,6 +1,6 @@
 
 from chart.models import User, UserProfile
-from chart.models import DailyVital
+from chart.models import DailyVital, Medication
 from django.http import HttpResponse
 from django.template import Context, loader, RequestContext
 from django.shortcuts import render_to_response, redirect, get_object_or_404, render 
@@ -99,7 +99,7 @@ def meds(request):
             return render(request, 'meds.html', {"med": meds, 
                 "medications": medications, "form": form})
     else:
-        form = validators.VitalsUpdateForm()
+        form = validators.MedsUpdateForm()
 
         try:
             vitals = request.user.dailyvital_set.all()
@@ -154,7 +154,7 @@ def update(request):
             "form": form})
 
 
-# not sure if working correctly
+# broken
 def download(request):
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=somefilename.pdf'
