@@ -20,16 +20,45 @@
 <div class="navigation">
 	<a href="/">Home</a>
 	<a href="/user">Dashboard</a>
-	<a href="/update">Update</a>    
-	<a href="/meds">Medications</a>
-	<a href="/user/update/download">Download</a> 
+	<a href="user/update">Update</a>    
+	<a href="user/meds">Medications</a>
+	<a href="/user/download">Download</a> 
 	<a href="/registration">Registration</a>
 	<a href="/user/logout">Logout</a>  
 </div>
 
 <body>
-	<h1> Daily Update for {{ user }}</h1>
+	<div class ="updateparent">
+		<div class="review">
+		<style type = "text/css">
+		table, td  {
+			padding: 5px; 
+			border: 1px;
+		}
+		</style>
+		<h1>Your Current Stats:</h1>
+		<table id="2"> 
+		<tr>
+			<td>High BGL</td>
+			<td>Low BGL</td>
+			<td>Comments</td>
+			<td>Date</td>
+
+		</tr>
+		{% for vital in vitals %}
+		<tr>
+			<td>{{ vital.high_BGL }}</td>
+			<td>{{ vital.low_BGL }}</td>
+			<td>{{ vital.comments }}</td> 
+			<!-- filters that pesky timedatefeild -->
+			<td>{{ vital.entered_at|date }}</td>  
+
+		</tr> 
+		{% endfor %}
+		</table><br>
+	</div>
 	<div class ="update">
+		<h1> Daily Update for {{ user }}</h1>
 		<form action="{% url update %}" method="post">
 			<table>
 			{{ form.as_table }}
@@ -40,42 +69,8 @@
 	</div>
 
 
-	<div class="review">
-		<style type = "text/css">
-		table, td  {
-			padding: 5px; 
-			border: 1px;
-		}
-		</style>
-		<h3><b>Your Current Stats:</b></h3>
-		<table id="2"> 
-		<tr>
-			<td>User</td>
-			<td>High BGL</td>
-			<td>Low BGL</td>
-			<td>Diet</td>
-			<td>Activity</td>
-			<td>Mood</td>
-			<td>Comments</td>
-			<td>Date</td>
-			<td>Time</td>
-		</tr>
-		{% for vital in vitals %}
-		<tr>
-			<td>{{ vital.user }}</td>
-			<td>{{ vital.high_BGL }}</td>
-			<td>{{ vital.low_BGL }}</td>
-			<td>{{ vital.diet }}</td>
-			<td>{{ vital.activity }}</td>
-			<td>{{ vital.mood_str }}</td>
-			<td>{{ vital.comments }}</td> 
-			<!-- filters that pesky timedatefeild -->
-			<td>{{ vital.entered_at|date }}</td>  
-			<td>{{ vital.entered_at|time }}</td> 
-		</tr> 
-		{% endfor %}
-		</table><br>
-	</div>
+	
+</div>
 
 </body>
 </html>

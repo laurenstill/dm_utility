@@ -1,10 +1,13 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Updating {{ vital.user }} Medications</title>
+<title>Updating {{ vital.user }} Info</title>
 
 <link rel="stylesheet" type="text/css" href="/static/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/forms.css" />
+
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<style>
 		body{
@@ -14,6 +17,43 @@
 	</style>
 </head>
 
+<div class="navigation">
+	<a href="/">Home</a>
+	<a href="/user">Dashboard</a>
+	<a href="user/update">Update</a>    
+	<a href="user/meds">Medications</a>
+	<a href="/user/download">Download</a> 
+	<a href="/registration">Registration</a>
+	<a href="/user/logout">Logout</a>  
+</div>
 
+<body>
+<div class ="download_header">
+<h1>Your information is avaible for download in these formats:</h1>
+</div>
 
-
+	<div class = "download_block">
+		<table id="download_table">
+		<tr>
+			<td>CSV Log</td>
+			<td>XLS Log</td>
+			<td>PDF Log</td>
+			<td>CCR Log</td>
+		</tr>
+		<tr>
+			<td><a href="/download_update">Daily</a></td>
+			<td><a href="/download_update">Daily</a></td>
+			<td><a href="/download_update">Daily</a></td>
+			<td><a href="/download_update">Daily</a></td>
+		</tr>
+		<tr>
+			<td><a href="/download_meds">Medication</a></td>
+			<td><a href="/download_meds">Medication</a></td>
+			<td><a href="/download_meds">Medication</a></td>
+			<td><a href="/download_meds">Medication</a></td>
+		</tr>
+	</table>
+	</div>
+</div>
+</body>
+</html>

@@ -14,8 +14,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 import validators
-# import reportlab
-# from reportlab.pdfgen import canvas
+import csv
+
 
 
 
@@ -154,14 +154,38 @@ def update(request):
             "form": form})
 
 
-# broken
+
 def download(request):
-    response = HttpResponse(mimetype='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename=somefilename.pdf'
-    p = canvas.Canvas(response)
-    p.drawString(100, 100, "ALLLLLLL the datas!")
-    p.showPage()
-    p.save()
+    return render(request, 'download.html')
+
+
+
+def download_update(request):
+    DailyVital.objects.filter(user=request.user)
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=DailyUpdateData.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Date', 'Time', 'HighBGL', 'LowBGL', 'Diet', 'Activity', 
+        'Mood', 'Comments', 'Height', 'Weight', 'Systolic', 'Diastolic'])
+    query = DailyVital.objects.filter(user=request.user)
+    for row in query.values_list('entered_at', 'high_BGL', 'low_BGL', 'diet', 
+        'activity', 'mood', 'comments', 'height', 'weight', 'systolic', 'diastolic'):
+       writer.writerow(row)
+    return response
+
+
+
+
+def download_meds(request):
+    Medication.objects.filter(user=request.user)
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=MedicationTrackingData.csv'
+    writer = csv.writer(response)
+    writer.writerow(['Medication', 'Started', 'Stopped', 'Side Effects', 'Doctor', 'Dosage', 'Comments'])
+    query = Medication.objects.filter(user=request.user)
+    for row in query.values_list( 'medication', 'started_at', 'stopped_at', 'side_effects', 
+            'prescribing_dr', 'dosage', 'comments'):
+            writer.writerow(row)
     return response
 
 
